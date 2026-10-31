@@ -1456,6 +1456,50 @@
   });
 
   renderFormForCurrentPage();
+  // ฟังก์ชันดึงไฟล์ PDF ต้นฉบับในโฟลเดอร์เดียวกันมาแสดงอัตโนมัติเมื่อเปิดผ่านเว็บ GitHub Pages
+  async function autoLoadDefaultPdf() {
+    const pdfFileName = 'แบบประเมินคุณลักษณะอันพึงประสงค์.pdf';
+    const statusHeader = document.getElementById('pageHeaderInfo');
+    try {
+      statusHeader.textContent = '⏳ กำลังโหลดไฟล์แม่แบบ PDF อัตโนมัติ กรุณารอสักครู่...';
+      const response = await fetch(encodeURI(pdfFileName));
+      if (!response.ok) throw new Error('ไม่พบไฟล์ PDF ในโฟลเดอร์เดียวกัน');
+
+      originalPdfBytes = await response.arrayBuffer();
+      pdfDocPreview = await pdfjsLib.getDocument({ data: originalPdfBytes.slice(0) }).promise;
+
+      // เปลี่ยนกล่องอัปโหลดเป็นแจ้งเตือนสีเขียวว่าโหลดสำเร็จแล้ว (ซ่อนปุ่ม Choose File ไว้ในเมนูย่อย)
+      const uploadZone = document.querySelector('.upload-zone');
+      if (uploadZone) {
+        uploadZone.style.background = '#f0fdf4';
+        uploadZone.style.borderColor = '#86efac';
+        uploadZone.innerHTML = `
+          <div style="font-weight:600; color:#166534;">
+            ✅ โหลดไฟล์ต้นฉบับ "${pdfFileName}" อัตโนมัติแล้ว (พร้อมกรอกข้อมูลทันที)
+          </div>
+          <details style="margin-top:4px; font-size:12px; color:#475569; cursor:pointer;">
+            <summary>คลิกที่นี่หากต้องการเปลี่ยนไฟล์ PDF ต้นฉบับใหม่ด้วยตนเอง</summary>
+            <input type="file" id="pdfUploadFallback" accept="application/pdf" style="width:100%; margin-top:4px;">
+          </details>
+        `;
+        document.getElementById('pdfUploadFallback').addEventListener('change', async (e) => {
+          const file = e.target.files[0];
+          if (!file) return;
+          originalPdfBytes = await file.arrayBuffer();
+          pdfDocPreview = await pdfjsLib.getDocument({ data: originalPdfBytes.slice(0) }).promise;
+          loadAndRenderPdfPage(currentPdfPage);
+        });
+      }
+
+      await loadAndRenderPdfPage(currentPdfPage);
+    } catch (err) {
+      console.warn('ข้ามการโหลด PDF อัตโนมัติ:', err.message);
+      statusHeader.textContent = 'กรุณาเลือกไฟล์ "แบบประเมินคุณลักษณะอันพึงประสงค์.pdf" ด้านซ้ายเพื่อเริ่มต้น';
+    }
+  }
+
+  // เรียกใช้งานทันทีเมื่อเปิดหน้าเว็บ
+  autoLoadDefaultPdf();
 </script>
 
 </body>
