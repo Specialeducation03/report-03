@@ -2,1505 +2,227 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>ระบบกรอกแบบประเมินคุณลักษณะอันพึงประสงค์ (ครบทั้งเล่ม ๒๑ หน้า) - ศกศ. เขตการศึกษา 3 จ.สงขลา</title>
-  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600&display=swap" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ระบบจัดทำเอกสารรายงานผลพัฒนาผู้เรียนปฐมวัย - ศกศ. เขตการศึกษา 3 จ.สงขลา</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     * { box-sizing: border-box; }
-    body { font-family: 'TH SarabunIT๙', 'TH SarabunIT9', 'Sarabun', sans-serif; margin: 0; padding: 12px; background: #e2e8f0; color: #1e293b; }
-    .app-container { display: flex; gap: 16px; max-width: 1580px; margin: auto; align-items: flex-start; }
+    body { font-family: 'Sarabun', sans-serif; margin: 0; padding: 0; background: #e2e8f0; color: #1e293b; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
 
-    /* แผงควบคุมและฟอร์มด้านซ้าย */
-    .left-panel { width: 605px; flex-shrink: 0; background: #fff; padding: 16px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); max-height: 96vh; overflow-y: auto; }
-    /* แผงพรีวิวกระดาษด้านขวา */
-    .right-panel { flex-grow: 1; background: #fff; padding: 16px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); text-align: center; position: sticky; top: 12px; max-height: 96vh; overflow: auto; }
+    /* แถบเมนูสลับเล่มด้านบนสุด */
+    .top-navbar { background: #0f172a; color: #fff; padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.2); z-index: 20; flex-shrink: 0; flex-wrap: wrap; }
+    .brand-box { display: flex; flex-direction: column; }
+    .brand-title { font-size: 16px; font-weight: 700; color: #f8fafc; }
+    .brand-sub { font-size: 11.5px; color: #93c5fd; font-weight: 600; }
 
-    /* ส่วนหัวด้านซ้ายบนและชื่อผู้พัฒนาระบบ */
-    .header-banner { margin-bottom: 12px; border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; text-align: left; }
-    .header-banner h2 { margin: 0 0 6px 0; font-size: 18px; color: #1e3a8a; font-family: 'Sarabun', sans-serif; }
-    .dev-credit { font-size: 12.5px; color: #1e40af; background: #eff6ff; border: 1px solid #bfdbfe; border-left: 4px solid #1d4ed8; padding: 6px 10px; border-radius: 6px; font-weight: 600; line-height: 1.4; font-family: 'Sarabun', sans-serif; }
+    .nav-tabs { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .tab-btn { border: 1px solid #334155; background: #1e293b; color: #cbd5e1; padding: 7px 14px; border-radius: 8px; font-family: 'Sarabun', sans-serif; font-size: 13.5px; font-weight: 600; cursor: pointer; transition: 0.2s; display: inline-flex; align-items: center; gap: 6px; }
+    .tab-btn:hover { background: #334155; color: #fff; }
+    .tab-btn.active { background: #2563eb; color: #fff; border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59,130,246,0.3); }
+    .tab-btn.sync-btn { background: #059669; color: #fff; border-color: #10b981; }
+    .tab-btn.sync-btn:hover { background: #047857; }
 
-    h3 { margin: 14px 0 8px 0; font-size: 14px; color: #1d4ed8; background: #eff6ff; padding: 6px 10px; border-radius: 6px; border-left: 4px solid #2563eb; display: flex; align-items: center; justify-content: space-between; text-align: left; font-family: 'Sarabun', sans-serif; }
-    h3.custom-group { color: #b45309; background: #fef3c7; border-left-color: #f59e0b; }
-    h3.table-group { color: #6d28d9; background: #f5f3ff; border-left-color: #7c3aed; }
+    /* พื้นที่หน้าเมนูหลัก (Dashboard) */
+    .home-view { flex-grow: 1; overflow-y: auto; padding: 30px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .portal-card-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 24px; max-width: 960px; width: 100%; margin-top: 10px; }
+    .portal-card { background: #fff; border-radius: 16px; padding: 26px; box-shadow: 0 8px 24px rgba(15,23,42,0.08); border: 2px solid transparent; transition: 0.2s; display: flex; flex-direction: column; justify-content: space-between; text-align: left; }
+    .portal-card:hover { transform: translateY(-4px); border-color: #3b82f6; box-shadow: 0 12px 30px rgba(37,99,235,0.15); }
+    .badge { display: inline-block; padding: 4px 10px; border-radius: 99px; font-size: 12px; font-weight: 700; margin-bottom: 10px; width: fit-content; }
+    .badge-blue { background: #dbeafe; color: #1e40af; }
+    .badge-purple { background: #ede9fe; color: #5b21b6; }
+    .portal-card h3 { margin: 0 0 8px 0; font-size: 20px; color: #0f172a; }
+    .portal-card p { margin: 0 0 18px 0; font-size: 14px; color: #475569; line-height: 1.55; }
+    .card-actions { display: flex; gap: 10px; }
+    .btn-open { flex-grow: 1; background: #1d4ed8; color: #fff; border: none; padding: 11px 16px; border-radius: 8px; font-family: 'Sarabun', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; text-align: center; text-decoration: none; transition: 0.15s; }
+    .btn-open:hover { background: #1e40af; }
+    .btn-open.purple { background: #6d28d9; }
+    .btn-open.purple:hover { background: #5b21b6; }
+    .btn-newtab { background: #f1f5f9; color: #334155; border: 1px solid #cbd5e1; padding: 11px 14px; border-radius: 8px; font-family: 'Sarabun', sans-serif; font-size: 13px; font-weight: 600; text-decoration: none; white-space: nowrap; }
+    .btn-newtab:hover { background: #e2e8f0; }
 
-    .box { background: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 8px; margin-bottom: 10px; font-size: 13px; text-align: left; font-family: 'Sarabun', sans-serif; }
-    .upload-zone { background: #fff; border: 1px dashed #94a3b8; padding: 8px; border-radius: 6px; margin-bottom: 8px; }
-    .thai-num-bar { background: #ecfdf5; border: 1px solid #6ee7b7; padding: 7px 10px; border-radius: 6px; margin-top: 8px; display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 12.5px; color: #065f46; font-weight: 600; }
-    .calc-bar { background: #f5f3ff; border: 1px solid #c4b5fd; padding: 7px 10px; border-radius: 6px; margin-top: 6px; display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 12.5px; color: #5b21b6; font-weight: 600; }
-    
-    /* แถบสลับซ่อน/แสดงช่องเฉลี่ย ๒ ภาคเรียน */
-    .avg-visibility-bar { background: #fff7ed; border: 1px solid #fdba74; padding: 8px 10px; border-radius: 6px; margin-top: 6px; display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 12.5px; color: #9a3412; font-weight: 600; font-family: 'Sarabun', sans-serif; }
-    .toggle-btn-group { display: inline-flex; border-radius: 6px; overflow: hidden; border: 1px solid #cbd5e1; background: #f1f5f9; }
-    .toggle-choice-btn { border: none; padding: 5px 10px; font-family: 'Sarabun', sans-serif; font-size: 12px; font-weight: 600; cursor: pointer; background: transparent; color: #475569; transition: 0.15s; white-space: nowrap; }
-    .toggle-choice-btn.active-show { background: #16a34a; color: #fff; }
-    .toggle-choice-btn.active-hide { background: #ea580c; color: #fff; }
+    .sync-panel { max-width: 960px; width: 100%; background: #ecfdf5; border: 1px solid #6ee7b7; border-radius: 12px; padding: 16px 20px; margin-top: 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .sync-panel-text { font-size: 13.5px; color: #065f46; line-height: 1.5; }
 
-    .readonly-notice { background: #f0fdf4; border: 1px solid #86efac; color: #166534; padding: 14px; border-radius: 8px; text-align: left; font-size: 13.5px; line-height: 1.6; margin-top: 10px; font-family: 'Sarabun', sans-serif; }
-    .photo-box { background: #eff6ff; border: 1px solid #bfdbfe; padding: 10px; border-radius: 8px; margin-bottom: 10px; text-align: left; font-family: 'Sarabun', sans-serif; }
-
-    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-    .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 6px; }
-
-    .field { margin-bottom: 6px; text-align: left; font-family: 'Sarabun', sans-serif; }
-    .field label { display: block; font-size: 11.5px; font-weight: 600; color: #334155; margin-bottom: 2px; }
-    .field input, .field select { width: 100%; padding: 5px 8px; border: 1px solid #cbd5e1; border-radius: 5px; font-family: 'TH SarabunIT๙', 'TH SarabunIT9', 'Sarabun', sans-serif; font-size: 14px; }
-    .field input:focus { outline: none; border-color: #2563eb; background: #fff; }
-    .field input.score-input { border-color: #c4b5fd; background: #faf5ff; }
-    .field input.score-input:focus { border-color: #7c3aed; background: #fff; }
-    .field input.auto-calc-field { border-color: #86efac; background: #f0fdf4; font-weight: 600; color: #166534; }
-    .field.hidden-on-pdf { opacity: 0.48; }
-    .field.hidden-on-pdf input { background: #f1f5f9 !important; border-style: dashed !important; color: #64748b !important; }
-
-    .custom-field-row { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; }
-    .custom-field-row input[type="text"] { flex-grow: 1; padding: 6px 8px; border: 1px solid #f59e0b; border-radius: 5px; font-family: 'TH SarabunIT๙', 'TH SarabunIT9', 'Sarabun', sans-serif; font-size: 14px; background: #fffbeb; }
-    .custom-field-row input[type="number"] { width: 58px; padding: 5px 6px; border: 1px solid #f59e0b; border-radius: 5px; font-family: 'Sarabun', sans-serif; font-size: 13px; background: #fff; text-align: center; }
-    .btn-del { background: #ef4444; color: white; border: none; border-radius: 5px; padding: 6px 10px; cursor: pointer; font-family: 'Sarabun', sans-serif; font-size: 12px; font-weight: 600; white-space: nowrap; }
-    .btn-del:hover { background: #dc2626; }
-
-    .font-controls-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; padding-top: 8px; border-top: 1px dashed #cbd5e1; align-items: center; }
-    .font-badge { display: inline-flex; align-items: center; gap: 4px; background: #e0f2fe; padding: 4px 8px; border-radius: 6px; font-weight: 600; color: #0369a1; font-size: 12px; }
-    .font-badge.score-badge { background: #ede9fe; color: #6d28d9; }
-    .font-badge.custom-badge { background: #fef3c7; color: #b45309; }
-
-    .nav-bar { display: flex; gap: 8px; align-items: center; justify-content: space-between; background: #1e293b; color: #fff; padding: 8px 12px; border-radius: 8px; margin-bottom: 10px; position: sticky; top: 0; z-index: 10; font-family: 'Sarabun', sans-serif; }
-    .nav-bar select { flex-grow: 1; padding: 6px; border-radius: 5px; font-family: 'Sarabun', sans-serif; font-size: 13px; font-weight: 600; }
-    .nav-btn { background: #3b82f6; color: white; border: none; padding: 6px 12px; border-radius: 5px; cursor: pointer; font-family: 'Sarabun', sans-serif; font-weight: 600; }
-    .nav-btn:hover { background: #2563eb; }
-
-    .btn { padding: 9px 12px; border: none; border-radius: 6px; font-family: 'Sarabun', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; transition: 0.15s; }
-    .btn-success { background: #16a34a; color: white; width: 100%; font-size: 15px; padding: 12px; margin-top: 10px; }
-    .btn-success:hover { background: #15803d; }
-    .btn-outline { background: #e2e8f0; color: #1e293b; font-size: 12px; padding: 6px 10px; }
-    .btn-outline:hover { background: #cbd5e1; }
-    .btn-add-custom { background: #f59e0b; color: #fff; font-size: 12px; padding: 6px 12px; }
-    .btn-add-custom:hover { background: #d97706; }
-    .btn-plot { background: #7c3aed; color: #fff; font-size: 12px; padding: 6px 12px; }
-    .btn-plot:hover { background: #6d28d9; }
-
-    canvas { border: 1px solid #94a3b8; box-shadow: 0 4px 16px rgba(0,0,0,0.12); max-width: 100%; height: auto; cursor: grab; background: white; }
-    canvas:active { cursor: grabbing; }
-    .status-bar { font-size: 12px; color: #0369a1; margin-top: 6px; line-height: 1.4; }
+    /* พื้นที่แสดงผลหน้าเว็บทั้ง 2 เล่มแบบไม่ต้องเปลี่ยนลิงก์ */
+    .iframe-view { flex-grow: 1; width: 100%; border: none; display: none; background: #e2e8f0; }
   </style>
 </head>
 <body>
 
-<div class="app-container">
-  <!-- แผงด้านซ้าย: ส่วนหัว + ตั้งค่าไฟล์ + เลือกหน้า + ฟอร์มกรอกข้อมูล -->
-  <div class="left-panel">
-    <div class="header-banner">
-      <h2>ระบบกรอกแบบประเมินคุณลักษณะอันพึงประสงค์ (ครบทั้งเล่ม ๒๑ หน้า)</h2>
-      <div class="dev-credit">
-        พัฒนาระบบโดย นายวราห์ หมายดี พนักงานราชการ ศูนย์การศึกษาพิเศษ เขตการศึกษา ๓ จังหวัดสงขลา
-      </div>
+  <!-- แถบเมนูสลับเล่มด้านบนสุด -->
+  <div class="top-navbar">
+    <div class="brand-box">
+      <div class="brand-title">ระบบจัดทำสมุดรายงานผลและแบบประเมินคุณลักษณะอันพึงประสงค์ (ปฐมวัย)</div>
+      <div class="brand-sub">พัฒนาระบบโดย นายวราห์ หมายดี พนักงานราชการ ศูนย์การศึกษาพิเศษ เขตการศึกษา ๓ จังหวัดสงขลา</div>
     </div>
 
-    <!-- ขั้นตอนที่ 1: อัปโหลดไฟล์ PDF และตั้งค่าหลัก -->
-    <div class="box">
-      <div class="upload-zone">
-        <label style="font-weight:600; color:#dc2626; display:block; margin-bottom:4px;">
-          1. เลือกไฟล์ต้นฉบับ (แบบประเมินคุณลักษณะอันพึงประสงค์.pdf):
-        </label>
-        <input type="file" id="pdfUpload" accept="application/pdf" style="width:100%; font-size:12.5px;">
-      </div>
-
-      <div class="grid-2" style="align-items:end;">
-        <div>
-          <label style="font-weight:600; font-size:12px;">ปีการศึกษา (ซิงค์หน้าปก + หน้าสรุป):</label>
-          <div style="display:flex; gap:4px; margin-top:3px;">
-            <input type="text" id="globalYear" placeholder="พิมพ์ 2569 ได้ ๒๕๖๙" style="padding:5px 8px; width:100%; border:1px solid #cbd5e1; border-radius:5px;">
-            <button type="button" class="btn btn-outline" id="syncCoverToSummaryBtn" style="white-space:nowrap;" title="ดึงปีการศึกษา ชื่อนักเรียน เลขประจำตัว และความพิการจากหน้าปกไปใส่หน้า ๔">ซิงค์ข้อมูลปก</button>
-          </div>
-        </div>
-        <div>
-          <label style="font-weight:600; font-size:12px;">ตั้งชื่อเดือนประเมิน 6 ครั้ง (ทุกข้อ ๑-๘):</label>
-          <div style="display:flex; gap:4px; margin-top:3px;">
-            <button type="button" class="btn btn-outline" id="syncDefaultMonthsBtn" style="width:100%;">🗓️ ใส่เดือน (มิ.ย.-เม.ย.) ทุกข้อ</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- แถบตั้งค่าฟอนต์ Sarabun 9 & ระบบแปลงเลขไทยอัตโนมัติ -->
-      <div class="thai-num-bar">
-        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
-          <input type="checkbox" id="autoThaiNumeralToggle" checked style="width:16px; height:16px; cursor:pointer;">
-          <span>🔢 โหมด Sarabun 9 (พิมพ์เลขอารบิก 0-9 แปลงเป็นเลขไทย ๐-๙ อัตโนมัติ)</span>
-        </label>
-        <label style="font-size:11.5px; color:#047857; cursor:pointer; background:#d1fae5; padding:3px 8px; border-radius:4px; white-space:nowrap;" title="อัปโหลดไฟล์ .ttf เพิ่มเติมได้">
-          🔤 อัปโหลดฟอนต์ .ttf
-          <input type="file" id="customFontUpload" accept=".ttf,.otf" style="display:none;">
-        </label>
-      </div>
-
-      <!-- แถบระบบคำนวณคะแนนและสรุปผลอัตโนมัติ -->
-      <div class="calc-bar">
-        <label style="display:flex; align-items:center; gap:6px; cursor:pointer;">
-          <input type="checkbox" id="autoCalcToggle" checked style="width:16px; height:16px; cursor:pointer;">
-          <span>🧮 คำนวณรวมคะแนน / ค่าเฉลี่ย / ระดับคุณภาพ และดึงไปหน้า ๔ อัตโนมัติ</span>
-        </label>
-        <button type="button" class="btn btn-plot" id="recalcAllBtn" style="padding:4px 8px; font-size:11.5px; white-space:nowrap;">
-          ⚡ คำนวณใหม่ทั้งเล่ม
-        </button>
-      </div>
-
-      <!-- แถบเลือก แสดง / ซ่อน คะแนนช่อง "เฉลี่ย ๒ ภาคเรียน" ในหน้า ๔ -->
-      <div class="avg-visibility-bar">
-        <span>📋 ช่อง "เฉลี่ย ๒ ภาคเรียน" (หน้า ๔):</span>
-        <div class="toggle-btn-group">
-          <button type="button" id="btnShowTwoTermAvg" class="toggle-choice-btn active-show">👁️ แสดงคะแนน</button>
-          <button type="button" id="btnHideTwoTermAvg" class="toggle-choice-btn">🙈 ซ่อนคะแนน (รอเทอม ๒)</button>
-        </div>
-      </div>
-
-      <!-- แถบแยกขนาดฟอนต์ 3 ส่วน -->
-      <div class="font-controls-bar">
-        <div class="font-badge" title="ขนาดฟอนต์ข้อมูลทั่วไปบนหน้าปกและส่วนหัว">
-          <label>ฟอนต์ข้อมูลหลัก:</label>
-          <input type="number" id="fontSizeInput" value="14" min="6" max="28" step="0.5" style="width:50px; padding:2px 4px; border:1px solid #93c5fd; border-radius:4px;">
-        </div>
-        <div class="font-badge score-badge" title="ขนาดฟอนต์ตัวเลขคะแนน ค่าเฉลี่ย และข้อมูลในตาราง">
-          <label>ฟอนต์ตารางคะแนน:</label>
-          <input type="number" id="scoreFontSizeInput" value="13.5" min="6" max="28" step="0.5" style="width:50px; padding:2px 4px; border:1px solid #c4b5fd; border-radius:4px;">
-        </div>
-        <div class="font-badge custom-badge" title="ขนาดฟอนต์ของข้อความอิสระและจุดพล็อตกราฟ">
-          <label>ฟอนต์ข้อความอิสระ:</label>
-          <input type="number" id="customFontSizeInput" value="14" min="6" max="42" step="0.5" style="width:50px; padding:2px 4px; border:1px solid #fcd34d; border-radius:4px;">
-        </div>
-        <div>
-          <select id="fontColorInput" style="padding:4px 6px; border-radius:4px; border:1px solid #cbd5e1; font-family:'Sarabun',sans-serif; font-size:12px;">
-            <option value="#000000">สีดำ</option>
-            <option value="#003399">สีน้ำเงินเข้ม</option>
-          </select>
-        </div>
-      </div>
-
-      <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:8px; align-items:center; justify-content:space-between;">
-        <div style="display:flex; gap:4px;">
-          <button type="button" class="btn btn-add-custom" id="addCustomTextBtn">+ เพิ่มข้อความอิสระ</button>
-          <button type="button" class="btn btn-plot" id="addPlotPointBtn" title="วางจุดทึบ • สำหรับพล็อตกราฟการเจริญเติบโต">+ วางจุดพล็อตกราฟ (•)</button>
-        </div>
-        <div style="display:flex; gap:4px;">
-          <button type="button" class="btn btn-outline" id="saveJsonBtn">💾 บันทึก JSON</button>
-          <button type="button" class="btn btn-outline" id="loadJsonBtn">📂 โหลด JSON</button>
-          <input type="file" id="jsonFileInput" accept=".json" style="display:none;">
-        </div>
-      </div>
-
-      <div class="status-bar" id="fontStatusText">
-        💡 <b>เคล็ดลับ:</b> หากต้องการพิมพ์เฉพาะผลภาคเรียนที่ ๑ สามารถกดปุ่ม <b>"🙈 ซ่อนคะแนน (รอเทอม ๒)"</b> เพื่อซ่อนช่องเฉลี่ย ๒ ภาคเรียนในหน้า ๔ ได้ทันที
-      </div>
+    <div class="nav-tabs">
+      <button type="button" class="tab-btn active" id="tabHome" onclick="switchView('home')">
+        🏠 หน้าเมนูหลัก
+      </button>
+      <button type="button" class="tab-btn" id="tabReport" onclick="switchView('report')">
+        📘 เล่ม ๑ : แบบรายงานผลพัฒนาผู้เรียน (๓๐ หน้า)
+      </button>
+      <button type="button" class="tab-btn" id="tabTraits" onclick="switchView('traits')">
+        📗 เล่ม ๒ : แบบประเมินคุณลักษณะฯ (๒๑ หน้า)
+      </button>
+      <button type="button" class="tab-btn sync-btn" onclick="syncBetweenTwoBooks()" title="คัดลอกข้อมูลหน้าปกและคะแนนคุณลักษณะ 8 ข้อระหว่าง 2 เล่มอัตโนมัติ">
+        🔄 ซิงค์ข้อมูลข้ามเล่ม
+      </button>
     </div>
-
-    <!-- แถบเลือกหน้า (Page Navigator 21 หน้า) -->
-    <div class="nav-bar">
-      <button type="button" class="nav-btn" id="prevPageBtn">◀ หน้าก่อน</button>
-      <select id="pageSelect"></select>
-      <button type="button" class="nav-btn" id="nextPageBtn">หน้าถัดไป ▶</button>
-    </div>
-
-    <!-- พื้นที่อัปโหลดรูปนักเรียน (จะแสดงเฉพาะตอนเปิดหน้าปก) -->
-    <div id="coverPhotoSection" class="photo-box" style="display:none;">
-      <div style="font-weight:600; color:#1e40af; margin-bottom:6px;">🖼️ รูปถ่ายนักเรียนบนหน้าปก (คลิกลากรูปบนกระดาษเพื่อจัดวางในกรอบได้เลย):</div>
-      <div class="grid-2" style="align-items:center;">
-        <div>
-          <input type="file" id="studentPhotoUpload" accept="image/*" style="width:100%; font-size:12px;">
-        </div>
-        <div style="display:flex; gap:6px; align-items:center; justify-content:flex-end;">
-          <label style="font-size:12px; font-weight:600;">ขนาดรูป กว้าง/สูง (%):</label>
-          <input type="number" id="photoWidthInput" value="13.2" min="5" max="35" step="0.2" style="width:55px; padding:3px;">
-          <input type="number" id="photoHeightInput" value="12.5" min="5" max="35" step="0.2" style="width:55px; padding:3px;">
-          <button type="button" class="btn-del" id="clearPhotoBtn" style="padding:4px 8px;">ลบรูป</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- พื้นที่แสดงฟอร์มกรอกข้อมูลตามหน้าที่เลือก -->
-    <div id="dynamicFormContainer"></div>
-
-    <!-- ปุ่ม Export PDF ทั้งเล่ม 21 หน้า -->
-    <button type="button" class="btn btn-success" id="exportPdfBtn">📥 Export ไฟล์ PDF ทั้งเล่ม ๒๑ หน้า (คงรูปแบบเดิม 100%)</button>
   </div>
 
-  <!-- แผงด้านขวา: พรีวิวหน้ากระดาษจริง -->
-  <div class="right-panel">
-    <div id="pageHeaderInfo" style="font-weight:600; margin-bottom:8px; color:#1e3a8a; font-family:'Sarabun',sans-serif;">
-      กรุณาเลือกไฟล์ "แบบประเมินคุณลักษณะอันพึงประสงค์.pdf" ด้านซ้ายเพื่อเริ่มต้น
+  <!-- หน้าเมนูหลัก (Dashboard) -->
+  <div class="home-view" id="homeContainer">
+    <div style="text-align:center; max-width:780px; margin-bottom:14px;">
+      <h1 style="margin:0 0 6px 0; font-size:24px; color:#1e3a8a;">เลือกเล่มเอกสารที่ต้องการกรอกข้อมูล</h1>
+      <div style="font-size:14px; color:#475569;">
+        ศูนย์การศึกษาพิเศษ เขตการศึกษา ๓ จังหวัดสงขลา (ข้อมูลบันทึกอัตโนมัติในเครื่องและสามารถซิงค์ข้อมูลหน้าปก/คะแนนข้ามเล่มได้)
+      </div>
     </div>
-    <canvas id="pdfCanvas"></canvas>
+
+    <div class="portal-card-container">
+      <!-- การ์ดเล่มที่ 1 -->
+      <div class="portal-card">
+        <div>
+          <span class="badge badge-blue">เล่มที่ ๑ (รวมปก ๓๐ หน้า)</span>
+          <h3>📘 แบบรายงานผลการพัฒนาผู้เรียน</h3>
+          <p>
+            ตามหลักสูตรสถานศึกษาปฐมวัย สำหรับเด็กที่มีความต้องการจำเป็นพิเศษ ประกอบด้วย หน้าปก, ข้อมูลสุขภาพ, รายงานผลตามแผน IEP 5 ด้าน, กิจกรรมเสริมหลักสูตร 4 กิจกรรม, กิจกรรมพัฒนาผู้เรียน และสรุปผลการพัฒนา
+          </p>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="btn-open" onclick="switchView('report')">เปิดกรอกเล่มที่ ๑</button>
+          <a href="report.html" target="_blank" class="btn-newtab">เปิดแท็บใหม่ ↗</a>
+        </div>
+      </div>
+
+      <!-- การ์ดเล่มที่ 2 -->
+      <div class="portal-card">
+        <div>
+          <span class="badge badge-purple">เล่มที่ ๒ (รวมปก ๒๑ หน้า)</span>
+          <h3>📗 แบบประเมินคุณลักษณะอันพึงประสงค์</h3>
+          <p>
+            ตามหลักสูตรสถานศึกษาปฐมวัย สำหรับเด็กที่มีความต้องการจำเป็นพิเศษ ประกอบด้วย หน้าปก, ตารางสรุปผลคุณลักษณะ 8 ประการ, ตารางและกราฟการเจริญเติบโต และแบบประเมินรายข้อ (ข้อ ๑ - ๘) พร้อมคำนวณคะแนนอัตโนมัติ
+          </p>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="btn-open purple" onclick="switchView('traits')">เปิดกรอกเล่มที่ ๒</button>
+          <a href="traits.html" target="_blank" class="btn-newtab">เปิดแท็บใหม่ ↗</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- กล่องซิงค์ข้อมูลข้ามเล่ม -->
+    <div class="sync-panel">
+      <div class="sync-panel-text">
+        <b>🔄 ระบบเชื่อมข้อมูลอัตโนมัติระหว่าง ๒ เล่ม:</b><br>
+        เมื่อคุณกรอก <b>ข้อมูลนักเรียนบนหน้าปก</b> หรือ <b>คะแนนคุณลักษณะอันพึงประสงค์ 8 ข้อ</b> ในเล่มใดเล่มหนึ่งแล้ว สามารถกดปุ่มสีเขียวเพื่อคัดลอกข้อมูลไปใส่ในอีกเล่มหนึ่งได้ทันทีโดยไม่ต้องพิมพ์ซ้ำ
+      </div>
+      <button type="button" class="tab-btn sync-btn" style="padding:10px 18px; font-size:14px;" onclick="syncBetweenTwoBooks()">
+        🔄 กดซิงค์ข้อมูลหน้าปก + คะแนนคุณลักษณะฯ ข้ามเล่มทันที
+      </button>
+    </div>
   </div>
-</div>
 
-<script>
-  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  <!-- หน้าต่างแสดงผลเล่มที่ 1 และ เล่มที่ 2 -->
+  <iframe id="appFrame" class="iframe-view" src=""></iframe>
 
-  const TOTAL_PAGES = 21;
-  let activeFontFamily = "'TH SarabunIT๙', 'TH SarabunIT9', 'THSarabunIT9', 'Sarabun', sans-serif";
+  <script>
+    function switchView(mode) {
+      const homeEl = document.getElementById('homeContainer');
+      const frameEl = document.getElementById('appFrame');
+      document.getElementById('tabHome').classList.remove('active');
+      document.getElementById('tabReport').classList.remove('active');
+      document.getElementById('tabTraits').classList.remove('active');
 
-  // แปลงเลขอารบิก (0-9) <-> เลขไทย (๐-๙)
-  const THAI_DIGITS = ['๐', '๑', '๒', '๓', '๔', '๕', '๖', '๗', '๘', '๙'];
-  function toThaiNumerals(str) {
-    if (str === null || str === undefined) return '';
-    const isAutoThai = document.getElementById('autoThaiNumeralToggle').checked;
-    if (!isAutoThai) return String(str);
-    return String(str).replace(/[0-9]/g, d => THAI_DIGITS[Number(d)]);
-  }
-
-  function toArabicNumerals(str) {
-    if (str === null || str === undefined) return '';
-    return String(str).replace(/[๐-๙]/g, d => String(THAI_DIGITS.indexOf(d)));
-  }
-
-  function parseNumericScore(val) {
-    if (val === null || val === undefined) return null;
-    const clean = toArabicNumerals(String(val)).trim();
-    if (clean === '') return null;
-    const num = Number(clean);
-    return Number.isFinite(num) ? num : null;
-  }
-
-  function formatCleanNumber(num, forceDecimals = 2) {
-    if (!Number.isFinite(num)) return '';
-    if (forceDecimals === 0 || (forceDecimals === 'auto' && Number.isInteger(num))) {
-      return toThaiNumerals(String(Math.round(num)));
-    }
-    return toThaiNumerals(num.toFixed(forceDecimals === 'auto' ? 2 : forceDecimals));
-  }
-
-  // แปลผลระดับคุณภาพตามเกณฑ์หลักสูตรสถานศึกษาปฐมวัย
-  function getQualityLevelText(avgScore) {
-    if (!Number.isFinite(avgScore) || avgScore < 1.0) return '';
-    if (avgScore >= 4.50) return 'ดีเยี่ยม';
-    if (avgScore >= 3.50) return 'ดีมาก';
-    if (avgScore >= 2.50) return 'ดี';
-    if (avgScore >= 1.50) return 'พอใช้';
-    return 'ปรับปรุง';
-  }
-
-  // ตรวจสอบว่าเป็นฟิลด์ในคอลัมน์ "เฉลี่ย ๒ ภาคเรียน" หรือช่องติ๊กสรุปผลท้ายหน้า ๔ (PDF หน้าที่ 7) หรือไม่
-  function isTwoTermAverageField(pdfPage, key) {
-    if (pdfPage !== 7) return false;
-    return key.startsWith('sum_av_') || key.startsWith('sum_ql_') || key.startsWith('chk_');
-  }
-
-  // อัปโหลดฟอนต์ .ttf เพิ่มเติม
-  document.getElementById('customFontUpload').addEventListener('change', async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    try {
-      const buffer = await file.arrayBuffer();
-      const customFont = new FontFace('UploadedSarabun9', buffer);
-      await customFont.load();
-      document.fonts.add(customFont);
-      activeFontFamily = "'UploadedSarabun9', 'TH SarabunIT๙', 'TH SarabunIT9', 'Sarabun', sans-serif";
-      document.getElementById('fontStatusText').innerHTML =
-        `✅ <b>โหลดฟอนต์ "${file.name}" สำเร็จ!</b> ระบบกำลังแสดงผลด้วยฟอนต์ที่คุณเลือกควบคู่กับการแปลงเลขไทยอัตโนมัติ`;
-      drawCurrentPageOverlay();
-    } catch (err) {
-      alert('ไม่สามารถโหลดไฟล์ฟอนต์นี้ได้ กรุณาตรวจสอบว่าเป็นไฟล์ .ttf หรือ .otf');
-    }
-  });
-
-  // รายชื่อหน้าทั้งหมด 21 หน้าในไฟล์ แบบประเมินคุณลักษณะอันพึงประสงค์.pdf
-  const PAGE_META = [
-    { pdfPage: 1,  docPage: 'ปก', type: 'cover',          title: 'หน้าที่ 1 (ปก) : ปกแบบประเมินคุณลักษณะอันพึงประสงค์' },
-    { pdfPage: 2,  docPage: '-',  type: 'readonly',       title: 'หน้าที่ 2 (คำนำ) : คำนำ (ไม่มีการกรอกข้อมูล)' },
-    { pdfPage: 3,  docPage: '-',  type: 'readonly',       title: 'หน้าที่ 3 (สารบัญ) : สารบัญ (ไม่มีการกรอกข้อมูล)' },
-    { pdfPage: 4,  docPage: '๑',  type: 'readonly',       title: 'หน้าที่ 4 (หน้า ๑) : คำชี้แจงแบบประเมินคุณลักษณะอันพึงประสงค์' },
-    { pdfPage: 5,  docPage: '๒',  type: 'readonly',       title: 'หน้าที่ 5 (หน้า ๒) : พฤติกรรมที่แสดงออกเกี่ยวกับคุณลักษณะฯ' },
-    { pdfPage: 6,  docPage: '๓',  type: 'readonly',       title: 'หน้าที่ 6 (หน้า ๓) : รายละเอียดตัวชี้วัดและพฤติกรรมบ่งชี้ฯ' },
-    { pdfPage: 7,  docPage: '๔',  type: 'traits_summary', title: 'หน้าที่ 7 (หน้า ๔) : สรุปผลการประเมินคุณลักษณะอันพึงประสงค์' },
-    { pdfPage: 8,  docPage: '๕',  type: 'growth_table',   title: 'หน้าที่ 8 (หน้า ๕) : แบบประเมินพัฒนาการทางด้านการเจริญเติบโต (น้ำหนัก/ส่วนสูง)' },
-    { pdfPage: 9,  docPage: '๖',  type: 'growth_chart',   title: 'หน้าที่ 9 (หน้า ๖) : กราฟการเจริญเติบโต เพศชาย อายุ 0-2 ปี' },
-    { pdfPage: 10, docPage: '๗',  type: 'growth_chart',   title: 'หน้าที่ 10 (หน้า ๗) : กราฟการเจริญเติบโต เพศหญิง อายุ 0-2 ปี' },
-    { pdfPage: 11, docPage: '๘',  type: 'growth_chart',   title: 'หน้าที่ 11 (หน้า ๘) : กราฟการเจริญเติบโต เพศชาย อายุ 2-7 ปี' },
-    { pdfPage: 12, docPage: '๙',  type: 'growth_chart',   title: 'หน้าที่ 12 (หน้า ๙) : กราฟการเจริญเติบโต เพศหญิง 2-7 ปี / เพศชาย 5-18 ปี' },
-    { pdfPage: 13, docPage: '๑๐', type: 'growth_chart',   title: 'หน้าที่ 13 (หน้า ๑๐) : กราฟการเจริญเติบโต เพศหญิง อายุ 5-18 ปี' },
-    { pdfPage: 14, docPage: '๑๑', type: 'trait_detail',   traitNo: '๑', traitName: 'รักชาติ ศาสน์ กษัตริย์', title: 'หน้าที่ 14 (หน้า ๑๑) : ข้อ ๑. รักชาติ ศาสน์ กษัตริย์' },
-    { pdfPage: 15, docPage: '๑๒', type: 'trait_detail',   traitNo: '๒', traitName: 'ซื่อสัตย์สุจริต',       title: 'หน้าที่ 15 (หน้า ๑๒) : ข้อ ๒. ซื่อสัตย์สุจริต' },
-    { pdfPage: 16, docPage: '๑๓', type: 'trait_detail',   traitNo: '๓', traitName: 'มีวินัย',              title: 'หน้าที่ 16 (หน้า ๑๓) : ข้อ ๓. มีวินัย' },
-    { pdfPage: 17, docPage: '๑๔', type: 'trait_detail',   traitNo: '๔', traitName: 'ใฝ่เรียนรู้',           title: 'หน้าที่ 17 (หน้า ๑๔) : ข้อ ๔. ใฝ่เรียนรู้' },
-    { pdfPage: 18, docPage: '๑๕', type: 'trait_detail',   traitNo: '๕', traitName: 'อยู่อย่างพอเพียง',      title: 'หน้าที่ 18 (หน้า ๑๕) : ข้อ ๕. อยู่อย่างพอเพียง' },
-    { pdfPage: 19, docPage: '๑๖', type: 'trait_detail',   traitNo: '๖', traitName: 'มุ่งมั่นในการทำงาน',    title: 'หน้าที่ 19 (หน้า ๑๖) : ข้อ ๖. มุ่งมั่นในการทำงาน' },
-    { pdfPage: 20, docPage: '๑๗', type: 'trait_detail',   traitNo: '๗', traitName: 'รักความเป็นไทย',       title: 'หน้าที่ 20 (หน้า ๑๗) : ข้อ ๗. รักความเป็นไทย' },
-    { pdfPage: 21, docPage: '๑๘', type: 'trait_detail',   traitNo: '๘', traitName: 'มีจิตสาธารณะ',         title: 'หน้าที่ 21 (หน้า ๑๘) : ข้อ ๘. มีจิตสาธารณะ' }
-  ];
-
-  function isTableScoreField(pdfPage, key) {
-    if (pdfPage === 1) return false;
-    if (key.startsWith('custom_')) return false;
-    if (pdfPage === 7 && ['academic_year', 'full_name', 'student_id', 'disability_type', 'disability_desc'].includes(key)) {
-      return false;
-    }
-    return true;
-  }
-
-  function isAutoCalculatedField(pdfPage, key) {
-    if (pdfPage === 7) {
-      return key.startsWith('sum_av_') || key.startsWith('sum_ql_') ||
-             key.startsWith('sum_t1_') || key.startsWith('sum_t2_') ||
-             key.startsWith('chk_');
-    }
-    if (pdfPage >= 14 && pdfPage <= 21) {
-      return key.startsWith('top_tot_') || key.startsWith('top_avg_') || key.startsWith('top_qual_') ||
-             key.endsWith('_av1') || key.endsWith('_av2') || key.startsWith('bot_final_');
-    }
-    return false;
-  }
-
-  // สร้าง Schema ช่องกรอกข้อมูลพร้อมพิกัดเริ่มต้นตามแต่ละหน้า
-  function getFieldsForPage(pdfPage) {
-    const meta = PAGE_META[pdfPage - 1];
-    if (!meta || meta.type === 'readonly' || meta.type === 'growth_chart') return [];
-    const fields = [];
-
-    if (meta.type === 'cover') {
-      fields.push(
-        { id: 'academic_year',   label: 'ปีการศึกษา', x: 0.535, y: 0.352, group: 'ข้อมูลพื้นฐานของนักเรียน (หน้าปก)' },
-        { id: 'full_name',       label: 'ชื่อ - สกุล', x: 0.210, y: 0.398, group: 'ข้อมูลพื้นฐานของนักเรียน (หน้าปก)' },
-        { id: 'nickname',        label: 'ชื่อเล่น', x: 0.725, y: 0.398, group: 'ข้อมูลพื้นฐานของนักเรียน (หน้าปก)' },
-        { id: 'classroom',       label: 'ห้องเตรียมความพร้อม/หน่วยบริการ', x: 0.380, y: 0.427, group: 'ข้อมูลพื้นฐานของนักเรียน (หน้าปก)' },
-        { id: 'student_id',      label: 'เลขประจำตัวนักเรียน', x: 0.285, y: 0.456, group: 'ข้อมูลพื้นฐานของนักเรียน (หน้าปก)' },
-        { id: 'birth_day',       label: 'เกิดวันที่', x: 0.200, y: 0.485, group: 'ข้อมูลพื้นฐานของนักเรียน (หน้าปก)' },
-        { id: 'birth_month',     label: 'เดือนเกิด', x: 0.380, y: 0.485, group: 'ข้อมูลพื้นฐานของนักเรียน (หน้าปก)' },
-        { id: 'birth_year',      label: 'พ.ศ. เกิด', x: 0.625, y: 0.485, group: 'ข้อมูลพื้นฐานของนักเรียน (หน้าปก)' },
-        { id: 'age_year',        label: 'อายุ (ปี)', x: 0.785, y: 0.485, group: 'ข้อมูลพื้นฐานของนักเรียน (หน้าปก)' },
-        { id: 'age_month',       label: 'อายุ (เดือน)', x: 0.880, y: 0.485, group: 'ข้อมูลพื้นฐานของนักเรียน (หน้าปก)' },
-
-        { id: 'disability_type', label: 'ประเภทความพิการ', x: 0.265, y: 0.514, group: 'ข้อมูลความพิการ (หน้าปก)' },
-        { id: 'disability_desc', label: 'ลักษณะความพิการ', x: 0.265, y: 0.543, group: 'ข้อมูลความพิการ (หน้าปก)' },
-
-        { id: 'addr_no',         label: 'บ้านเลขที่', x: 0.255, y: 0.572, group: 'ที่อยู่และผู้ปกครอง (หน้าปก)' },
-        { id: 'addr_moo',        label: 'หมู่ที่', x: 0.455, y: 0.572, group: 'ที่อยู่และผู้ปกครอง (หน้าปก)' },
-        { id: 'addr_village',    label: 'ชื่อหมู่บ้าน', x: 0.650, y: 0.572, group: 'ที่อยู่และผู้ปกครอง (หน้าปก)' },
-        { id: 'addr_road',       label: 'ถนน / ซอย', x: 0.220, y: 0.601, group: 'ที่อยู่และผู้ปกครอง (หน้าปก)' },
-        { id: 'addr_subdistrict',label: 'ตำบล', x: 0.525, y: 0.601, group: 'ที่อยู่และผู้ปกครอง (หน้าปก)' },
-        { id: 'addr_district',   label: 'อำเภอ', x: 0.770, y: 0.601, group: 'ที่อยู่และผู้ปกครอง (หน้าปก)' },
-        { id: 'addr_province',   label: 'จังหวัด', x: 0.195, y: 0.630, group: 'ที่อยู่และผู้ปกครอง (หน้าปก)', defaultText: 'สงขลา' },
-        { id: 'addr_zipcode',    label: 'รหัสไปรษณีย์', x: 0.525, y: 0.630, group: 'ที่อยู่และผู้ปกครอง (หน้าปก)' },
-        { id: 'phone',           label: 'โทรศัพท์', x: 0.755, y: 0.630, group: 'ที่อยู่และผู้ปกครอง (หน้าปก)' },
-        { id: 'parent_name',     label: 'ชื่อผู้ปกครอง', x: 0.230, y: 0.659, group: 'ที่อยู่และผู้ปกครอง (หน้าปก)' },
-        { id: 'parent_relation', label: 'เกี่ยวข้องเป็น', x: 0.680, y: 0.659, group: 'ที่อยู่และผู้ปกครอง (หน้าปก)' },
-
-        { id: 'teacher_1',       label: 'ครูผู้รับผิดชอบ (๑)', x: 0.245, y: 0.717, group: 'ครูผู้รับผิดชอบ (หน้าปก)' },
-        { id: 'pos_1',           label: 'ตำแหน่ง (๑)', x: 0.635, y: 0.717, group: 'ครูผู้รับผิดชอบ (หน้าปก)' },
-        { id: 'teacher_2',       label: 'ครูผู้รับผิดชอบ (๒)', x: 0.245, y: 0.746, group: 'ครูผู้รับผิดชอบ (หน้าปก)' },
-        { id: 'pos_2',           label: 'ตำแหน่ง (๒)', x: 0.635, y: 0.746, group: 'ครูผู้รับผิดชอบ (หน้าปก)' },
-        { id: 'teacher_3',       label: 'ครูผู้รับผิดชอบ (๓)', x: 0.245, y: 0.775, group: 'ครูผู้รับผิดชอบ (หน้าปก)' },
-        { id: 'pos_3',           label: 'ตำแหน่ง (๓)', x: 0.635, y: 0.775, group: 'ครูผู้รับผิดชอบ (หน้าปก)' },
-        { id: 'teacher_4',       label: 'ครูผู้รับผิดชอบ (๔)', x: 0.245, y: 0.804, group: 'ครูผู้รับผิดชอบ (หน้าปก)' },
-        { id: 'pos_4',           label: 'ตำแหน่ง (๔)', x: 0.635, y: 0.804, group: 'ครูผู้รับผิดชอบ (หน้าปก)' }
-      );
-    }
-
-    else if (meta.type === 'traits_summary') {
-      // หน้าที่ 7 (หน้า ๔): สรุปผลการประเมินคุณลักษณะอันพึงประสงค์
-      fields.push(
-        { id: 'academic_year',   label: 'ประจำปีการศึกษา', x: 0.565, y: 0.122, group: 'ข้อมูลนักเรียน (หน้า ๔)' },
-        { id: 'full_name',       label: 'ชื่อ - สกุล', x: 0.215, y: 0.154, group: 'ข้อมูลนักเรียน (หน้า ๔)' },
-        { id: 'student_id',      label: 'เลขประจำตัว', x: 0.695, y: 0.154, group: 'ข้อมูลนักเรียน (หน้า ๔)' },
-        { id: 'disability_type', label: 'ประเภทความพิการ', x: 0.265, y: 0.184, group: 'ข้อมูลนักเรียน (หน้า ๔)' },
-        { id: 'disability_desc', label: 'ลักษณะความพิการ', x: 0.265, y: 0.214, group: 'ข้อมูลนักเรียน (หน้า ๔)' }
-      );
-
-      const traitsList = [
-        '๑. รักชาติ ศาสน์ กษัตริย์', '๒. ซื่อสัตย์สุจริต', '๓. มีวินัย', '๔. ใฝ่เรียนรู้',
-        '๕. อยู่อย่างพอเพียง', '๖. มุ่งมั่นในการทำงาน', '๗. รักความเป็นไทย', '๘. มีจิตสาธารณะ',
-        'เฉลี่ยรวมทุกข้อ [คำนวณอัตโนมัติ]'
-      ];
-      const rowY = [0.330, 0.362, 0.394, 0.426, 0.458, 0.490, 0.522, 0.554, 0.586];
-      traitsList.forEach((tName, idx) => {
-        fields.push(
-          { id: `sum_t1_${idx}`,  label: `${tName} - เทอม ๑ (คะแนน)`, x: 0.475, y: rowY[idx], group: 'ตารางสรุปผลการประเมิน 8 คุณลักษณะ (คำนวณอัตโนมัติ)' },
-          { id: `sum_t2_${idx}`,  label: `${tName} - เทอม ๒ (คะแนน)`, x: 0.605, y: rowY[idx], group: 'ตารางสรุปผลการประเมิน 8 คุณลักษณะ (คำนวณอัตโนมัติ)' },
-          { id: `sum_av_${idx}`,  label: `${tName} - เฉลี่ย ๒ เทอม`, x: 0.735, y: rowY[idx], group: 'ตารางสรุปผลการประเมิน 8 คุณลักษณะ (คำนวณอัตโนมัติ)' },
-          { id: `sum_ql_${idx}`,  label: `${tName} - ระดับคุณภาพ`, x: 0.855, y: rowY[idx], group: 'ตารางสรุปผลการประเมิน 8 คุณลักษณะ (คำนวณอัตโนมัติ)' }
-        );
-      });
-
-      fields.push(
-        { id: 'chk_5', label: 'สรุปผล: ๕ ดีเยี่ยม (✓ อัตโนมัติ)', x: 0.202, y: 0.665, group: 'ติ๊กสรุปผลการประเมินคุณลักษณะอันพึงประสงค์ (อัตโนมัติ)' },
-        { id: 'chk_4', label: 'สรุปผล: ๔ ดีมาก (✓ อัตโนมัติ)', x: 0.345, y: 0.665, group: 'ติ๊กสรุปผลการประเมินคุณลักษณะอันพึงประสงค์ (อัตโนมัติ)' },
-        { id: 'chk_3', label: 'สรุปผล: ๓ ดี (✓ อัตโนมัติ)', x: 0.475, y: 0.665, group: 'ติ๊กสรุปผลการประเมินคุณลักษณะอันพึงประสงค์ (อัตโนมัติ)' },
-        { id: 'chk_2', label: 'สรุปผล: ๒ พอใช้ (✓ อัตโนมัติ)', x: 0.585, y: 0.665, group: 'ติ๊กสรุปผลการประเมินคุณลักษณะอันพึงประสงค์ (อัตโนมัติ)' },
-        { id: 'chk_1', label: 'สรุปผล: ๑ ปรับปรุง (✓ อัตโนมัติ)', x: 0.715, y: 0.665, group: 'ติ๊กสรุปผลการประเมินคุณลักษณะอันพึงประสงค์ (อัตโนมัติ)' }
-      );
-    }
-
-    else if (meta.type === 'growth_table') {
-      const colY = [0.760, 0.640, 0.520, 0.400, 0.280, 0.160];
-      for (let i = 0; i < 6; i++) {
-        const cNum = i + 1;
-        fields.push(
-          { id: `w_date_${cNum}`, label: `น้ำหนัก ครั้งที่ ${cNum} (ว/ด/ป)`, x: 0.235, y: colY[i], group: '๑.๑.๑ น้ำหนัก (ก.ก.) ครั้งที่ ๑ - ๖' },
-          { id: `w_kg_${cNum}`,   label: `ครั้งที่ ${cNum} น้ำหนัก (กก.)`, x: 0.305, y: colY[i], group: '๑.๑.๑ น้ำหนัก (ก.ก.) ครั้งที่ ๑ - ๖' },
-          { id: `w_res_${cNum}`,  label: `ครั้งที่ ${cNum} แปลผลน้ำหนัก (พิมพ์ ✓)`, x: 0.385, y: colY[i], group: '๑.๑.๑ น้ำหนัก (ก.ก.) ครั้งที่ ๑ - ๖' },
-
-          { id: `h_date_${cNum}`, label: `ส่วนสูง ครั้งที่ ${cNum} (ว/ด/ป)`, x: 0.595, y: colY[i], group: '๑.๑.๒ ส่วนสูง (ซ.ม.) ครั้งที่ ๑ - ๖' },
-          { id: `h_cm_${cNum}`,   label: `ครั้งที่ ${cNum} ส่วนสูง (ซม.)`, x: 0.665, y: colY[i], group: '๑.๑.๒ ส่วนสูง (ซ.ม.) ครั้งที่ ๑ - ๖' },
-          { id: `h_res_${cNum}`,  label: `ครั้งที่ ${cNum} แปลผลส่วนสูง (พิมพ์ ✓)`, x: 0.755, y: colY[i], group: '๑.๑.๒ ส่วนสูง (ซ.ม.) ครั้งที่ ๑ - ๖' }
-        );
+      if (mode === 'home') {
+        homeEl.style.display = 'flex';
+        frameEl.style.display = 'none';
+        document.getElementById('tabHome').classList.add('active');
+      } else if (mode === 'report') {
+        homeEl.style.display = 'none';
+        frameEl.style.display = 'block';
+        if (!frameEl.src.endsWith('report.html')) frameEl.src = 'report.html';
+        document.getElementById('tabReport').classList.add('active');
+      } else if (mode === 'traits') {
+        homeEl.style.display = 'none';
+        frameEl.style.display = 'block';
+        if (!frameEl.src.endsWith('traits.html')) frameEl.src = 'traits.html';
+        document.getElementById('tabTraits').classList.add('active');
       }
     }
 
-    else if (meta.type === 'trait_detail') {
-      const tNo = meta.traitNo;
-      const topGrp = `ตารางบน: สรุปผล ข้อ ${tNo}. ${meta.traitName} (เทอม ๑ และ เทอม ๒)`;
+    // ฟังก์ชันซิงค์ข้อมูลหน้าปก รูปนักเรียน และคะแนนคุณลักษณะอันพึงประสงค์ 8 ข้อ ระหว่างทั้ง 2 เล่มผ่าน localStorage
+    function syncBetweenTwoBooks() {
+      const reportKey = 'sok3_report_book_full30';
+      const traitsKey = 'sok3_traits_book_21pages';
 
-      const topRows = [
-        { key: 'sub1', label: `ข้อ ${tNo}.๑ พฤติกรรมบ่งชี้ที่ 1`, y: 0.215 },
-        { key: 'sub2', label: `ข้อ ${tNo}.๒ พฤติกรรมบ่งชี้ที่ 2`, y: 0.260 },
-        { key: 'sub3', label: `ข้อ ${tNo}.๓ พฤติกรรมบ่งชี้ที่ 3`, y: 0.305 },
-        { key: 'tot',  label: `รวมคะแนน [คำนวณอัตโนมัติ]`, y: 0.342 },
-        { key: 'avg',  label: `ค่าเฉลี่ยของคุณลักษณะ [อัตโนมัติ]`, y: 0.374 },
-        { key: 'qual', label: `ระดับคุณภาพ [แปลผลอัตโนมัติ]`, y: 0.406 }
+      let reportData = JSON.parse(localStorage.getItem(reportKey)) || {};
+      let traitsData = JSON.parse(localStorage.getItem(traitsKey)) || {};
+
+      if (!reportData[1]) reportData[1] = {};
+      if (!traitsData[1]) traitsData[1] = {};
+
+      // 1. ซิงค์ข้อมูลหน้าปกที่ใช้ร่วมกัน (ถ้าเล่มไหนมีข้อมูล จะคัดลอกไปเติมให้อีกเล่มที่ยังว่างอยู่)
+      const sharedCoverKeys = [
+        'academic_year', 'full_name', 'nickname', 'classroom', 'student_id',
+        'birth_day', 'birth_month', 'birth_year', 'age_year', 'age_month',
+        'disability_type', 'disability_desc', 'addr_no', 'addr_moo', 'addr_village',
+        'addr_road', 'addr_subdistrict', 'addr_district', 'addr_province', 'addr_zipcode',
+        'phone', 'parent_name', 'parent_relation',
+        'teacher_1', 'pos_1', 'teacher_2', 'pos_2', 'teacher_3', 'pos_3'
       ];
 
-      topRows.forEach(r => {
-        fields.push(
-          { id: `top_${r.key}_t1`, label: `${r.label} (เทอม ๑)`, x: 0.685, y: r.y, group: topGrp },
-          { id: `top_${r.key}_t2`, label: `${r.label} (เทอม ๒)`, x: 0.835, y: r.y, group: topGrp }
-        );
-      });
-
-      const monthGrp = `ตารางล่าง: ระบุเดือนที่ประเมิน (ครั้งที่ ๑ - ๖)`;
-      const mColsX = [0.435, 0.505, 0.575, 0.715, 0.785, 0.855];
-      for (let m = 1; m <= 6; m++) {
-        fields.push({
-          id: `m_name_${m}`,
-          label: `ครั้งที่ ${m} เดือน`,
-          x: mColsX[m - 1],
-          y: 0.535,
-          group: monthGrp
-        });
-      }
-
-      const botSubY = [0.585, 0.645, 0.705];
-      const botCols = [
-        { key: 'c1', label: 'ครั้งที่ ๑', x: 0.435 },
-        { key: 'c2', label: 'ครั้งที่ ๒', x: 0.505 },
-        { key: 'c3', label: 'ครั้งที่ ๓', x: 0.575 },
-        { key: 'av1', label: 'เฉลี่ย เทอม ๑ [อัตโนมัติ]', x: 0.645 },
-        { key: 'c4', label: 'ครั้งที่ ๔', x: 0.715 },
-        { key: 'c5', label: 'ครั้งที่ ๕', x: 0.785 },
-        { key: 'c6', label: 'ครั้งที่ ๖', x: 0.855 },
-        { key: 'av2', label: 'เฉลี่ย เทอม ๒ [อัตโนมัติ]', x: 0.920 }
-      ];
-
-      for (let s = 1; s <= 3; s++) {
-        const subGrp = `ตารางล่าง: คะแนนรายครั้ง ข้อ ${tNo}.${THAI_DIGITS[s]} (ครั้งที่ ๑ - ๖)`;
-        botCols.forEach(c => {
-          fields.push({
-            id: `bot_s${s}_${c.key}`,
-            label: `ข้อ ${tNo}.${THAI_DIGITS[s]} - ${c.label}`,
-            x: c.x,
-            y: botSubY[s - 1],
-            group: subGrp
-          });
-        });
-      }
-
-      fields.push(
-        { id: 'bot_final_av1', label: 'ค่าเฉลี่ยรวมท้ายตาราง (ภาคเรียนที่ ๑) [อัตโนมัติ]', x: 0.645, y: 0.760, group: 'สรุปท้ายตารางล่าง (คำนวณอัตโนมัติ)' },
-        { id: 'bot_final_av2', label: 'ค่าเฉลี่ยรวมท้ายตาราง (ภาคเรียนที่ ๒) [อัตโนมัติ]', x: 0.920, y: 0.760, group: 'สรุปท้ายตารางล่าง (คำนวณอัตโนมัติ)' }
-      );
-    }
-
-    return fields;
-  }
-
-  const STORAGE_KEY = 'sok3_traits_book_21pages';
-  let bookData = JSON.parse(localStorage.getItem(STORAGE_KEY));
-
-  if (!bookData) {
-    bookData = {};
-    const oldCoverPos = JSON.parse(localStorage.getItem('sok3_cover_positions'));
-    if (oldCoverPos) {
-      bookData[1] = {};
-      getFieldsForPage(1).forEach(f => {
-        const pos = oldCoverPos[f.id] || { x: f.x, y: f.y };
-        bookData[1][f.id] = { text: f.defaultText || '', x: pos.x, y: pos.y, label: f.label, group: f.group };
-      });
-    }
-  }
-
-  let originalPdfBytes = null;
-  let pdfDocPreview = null;
-  let currentPdfPage = 1;
-  let currentPageCanvas = null;
-  let studentPhotoImg = null;
-
-  const canvas = document.getElementById('pdfCanvas');
-  const ctx = canvas.getContext('2d');
-  const RENDER_SCALE = 1.85;
-
-  function initBookData() {
-    for (let p = 1; p <= TOTAL_PAGES; p++) {
-      if (!bookData[p]) bookData[p] = {};
-      const defaultFields = getFieldsForPage(p);
-      defaultFields.forEach(f => {
-        if (!bookData[p][f.id]) {
-          bookData[p][f.id] = {
-            text: f.defaultText || '',
-            x: f.x,
-            y: f.y,
-            label: f.label,
-            group: f.group
-          };
-        } else {
-          bookData[p][f.id].label = f.label;
-          bookData[p][f.id].group = f.group;
+      sharedCoverKeys.forEach(k => {
+        const rTxt = reportData[1][k]?.text || '';
+        const tTxt = traitsData[1][k]?.text || '';
+        if (rTxt && !tTxt) {
+          if (!traitsData[1][k]) traitsData[1][k] = { x: 0.25, y: 0.5, text: '' };
+          traitsData[1][k].text = rTxt;
+        } else if (tTxt && !rTxt) {
+          if (!reportData[1][k]) reportData[1][k] = { x: 0.25, y: 0.5, text: '' };
+          reportData[1][k].text = tTxt;
         }
       });
-    }
-    if (!bookData._photoMeta) {
-      bookData._photoMeta = { x: 0.742, y: 0.232, w: 0.132, h: 0.125, dataUrl: null };
-    }
-    if (bookData._showTwoTermAvg === undefined) {
-      bookData._showTwoTermAvg = true;
-    }
-    if (bookData._photoMeta.dataUrl) {
-      const img = new Image();
-      img.onload = () => { studentPhotoImg = img; drawCurrentPageOverlay(); };
-      img.src = bookData._photoMeta.dataUrl;
-    }
-    document.getElementById('photoWidthInput').value = Number((bookData._photoMeta.w * 100).toFixed(1));
-    document.getElementById('photoHeightInput').value = Number((bookData._photoMeta.h * 100).toFixed(1));
-    updateTwoTermVisibilityButtonsUI();
-    saveToLocal();
-  }
 
-  // อัปเดตสถานะปุ่มสลับ แสดง / ซ่อน ช่องเฉลี่ย ๒ ภาคเรียน
-  function updateTwoTermVisibilityButtonsUI() {
-    const isShow = bookData._showTwoTermAvg !== false;
-    const btnShowTop = document.getElementById('btnShowTwoTermAvg');
-    const btnHideTop = document.getElementById('btnHideTwoTermAvg');
-    if (btnShowTop && btnHideTop) {
-      btnShowTop.className = 'toggle-choice-btn' + (isShow ? ' active-show' : '');
-      btnHideTop.className = 'toggle-choice-btn' + (!isShow ? ' active-hide' : '');
-    }
+      // ซิงค์รูปถ่ายนักเรียนบนหน้าปก
+      if (reportData._photoMeta?.dataUrl && (!traitsData._photoMeta || !traitsData._photoMeta.dataUrl)) {
+        if (!traitsData._photoMeta) traitsData._photoMeta = { x: 0.742, y: 0.232, w: 0.132, h: 0.125 };
+        traitsData._photoMeta.dataUrl = reportData._photoMeta.dataUrl;
+      } else if (traitsData._photoMeta?.dataUrl && (!reportData._photoMeta || !reportData._photoMeta.dataUrl)) {
+        if (!reportData._photoMeta) reportData._photoMeta = { x: 0.752, y: 0.145, w: 0.128, h: 0.118 };
+        reportData._photoMeta.dataUrl = traitsData._photoMeta.dataUrl;
+      }
 
-    const btnShowInPage = document.getElementById('btnShowTwoTermInPage');
-    const btnHideInPage = document.getElementById('btnHideTwoTermInPage');
-    if (btnShowInPage && btnHideInPage) {
-      btnShowInPage.className = 'toggle-choice-btn' + (isShow ? ' active-show' : '');
-      btnHideInPage.className = 'toggle-choice-btn' + (!isShow ? ' active-hide' : '');
-    }
-  }
-
-  function setTwoTermAvgVisibility(showFlag) {
-    bookData._showTwoTermAvg = Boolean(showFlag);
-    updateTwoTermVisibilityButtonsUI();
-    saveToLocal();
-    if (currentPdfPage === 7) {
-      renderFormForCurrentPage();
-    }
-    drawCurrentPageOverlay();
-  }
-
-  document.getElementById('btnShowTwoTermAvg').addEventListener('click', () => setTwoTermAvgVisibility(true));
-  document.getElementById('btnHideTwoTermAvg').addEventListener('click', () => setTwoTermAvgVisibility(false));
-
-  initBookData();
-
-  // =========================================================================
-  // ฟังก์ชันคำนวณผลรวม ค่าเฉลี่ย ระดับคุณภาพ และดึงไปหน้าสรุป (หน้า ๔) อัตโนมัติ
-  // =========================================================================
-  function recalculateTraitPage(pdfPage, triggerFieldId = '') {
-    if (!document.getElementById('autoCalcToggle').checked) return;
-    if (pdfPage < 14 || pdfPage > 21) return;
-
-    const pageObj = bookData[pdfPage];
-    if (!pageObj) return;
-
-    const isBottomTrigger = !triggerFieldId || triggerFieldId.startsWith('bot_s');
-
-    if (isBottomTrigger) {
-      for (let s = 1; s <= 3; s++) {
-        // เทอม 1 (ครั้งที่ 1, 2, 3)
-        const c1 = parseNumericScore(pageObj[`bot_s${s}_c1`]?.text);
-        const c2 = parseNumericScore(pageObj[`bot_s${s}_c2`]?.text);
-        const c3 = parseNumericScore(pageObj[`bot_s${s}_c3`]?.text);
-        const validT1 = [c1, c2, c3].filter(v => v !== null);
-        if (validT1.length > 0) {
-          const avgSubT1 = validT1.reduce((a, b) => a + b, 0) / validT1.length;
-          pageObj[`bot_s${s}_av1`].text = formatCleanNumber(avgSubT1, 'auto');
-          pageObj[`top_sub${s}_t1`].text = formatCleanNumber(avgSubT1, 'auto');
-        } else if (triggerFieldId.startsWith(`bot_s${s}_c`)) {
-          pageObj[`bot_s${s}_av1`].text = '';
-          pageObj[`top_sub${s}_t1`].text = '';
+      // 2. ดึงคะแนนสรุปคุณลักษณะอันพึงประสงค์ 8 ข้อ จากเล่มคุณลักษณะฯ (หน้าที่ 7 / หน้า ๔) ไปใส่เล่มรายงานผล (หน้าที่ 27 / หน้า ๒๖)
+      if (traitsData[7]) {
+        if (!reportData[27]) reportData[27] = {};
+        for (let i = 0; i < 8; i++) {
+          const t1 = traitsData[7][`sum_t1_${i}`]?.text || '';
+          const t2 = traitsData[7][`sum_t2_${i}`]?.text || '';
+          const av = traitsData[7][`sum_av_${i}`]?.text || '';
+          if (t1 && reportData[27][`tr_t1_${i}`]) reportData[27][`tr_t1_${i}`].text = t1;
+          if (t2 && reportData[27][`tr_t2_${i}`]) reportData[27][`tr_t2_${i}`].text = t2;
+          if (av && reportData[27][`tr_sum_${i}`]) reportData[27][`tr_sum_${i}`].text = av;
         }
-
-        // เทอม 2 (ครั้งที่ 4, 5, 6)
-        const c4 = parseNumericScore(pageObj[`bot_s${s}_c4`]?.text);
-        const c5 = parseNumericScore(pageObj[`bot_s${s}_c5`]?.text);
-        const c6 = parseNumericScore(pageObj[`bot_s${s}_c6`]?.text);
-        const validT2 = [c4, c5, c6].filter(v => v !== null);
-        if (validT2.length > 0) {
-          const avgSubT2 = validT2.reduce((a, b) => a + b, 0) / validT2.length;
-          pageObj[`bot_s${s}_av2`].text = formatCleanNumber(avgSubT2, 'auto');
-          pageObj[`top_sub${s}_t2`].text = formatCleanNumber(avgSubT2, 'auto');
-        } else if (triggerFieldId.startsWith(`bot_s${s}_c`)) {
-          pageObj[`bot_s${s}_av2`].text = '';
-          pageObj[`top_sub${s}_t2`].text = '';
-        }
-      }
-    }
-
-    ['t1', 't2'].forEach((termKey, tIdx) => {
-      const s1 = parseNumericScore(pageObj[`top_sub1_${termKey}`]?.text);
-      const s2 = parseNumericScore(pageObj[`top_sub2_${termKey}`]?.text);
-      const s3 = parseNumericScore(pageObj[`top_sub3_${termKey}`]?.text);
-      const validSubs = [s1, s2, s3].filter(v => v !== null);
-
-      const botFinalKey = tIdx === 0 ? 'bot_final_av1' : 'bot_final_av2';
-
-      if (validSubs.length > 0) {
-        const sumScore = validSubs.reduce((a, b) => a + b, 0);
-        const avgScore = sumScore / validSubs.length;
-        pageObj[`top_tot_${termKey}`].text = formatCleanNumber(sumScore, 'auto');
-        pageObj[`top_avg_${termKey}`].text = formatCleanNumber(avgScore, 2);
-        pageObj[`top_qual_${termKey}`].text = getQualityLevelText(avgScore);
-        pageObj[botFinalKey].text = formatCleanNumber(avgScore, 2);
-      } else {
-        pageObj[`top_tot_${termKey}`].text = '';
-        pageObj[`top_avg_${termKey}`].text = '';
-        pageObj[`top_qual_${termKey}`].text = '';
-        pageObj[botFinalKey].text = '';
-      }
-    });
-
-    recalculateSummaryPage(false);
-  }
-
-  function recalculateSummaryPage(fromDirectSummaryEdit = false) {
-    if (!document.getElementById('autoCalcToggle').checked) return;
-    const sumPage = bookData[7];
-    if (!sumPage) return;
-
-    if (!fromDirectSummaryEdit) {
-      for (let i = 0; i < 8; i++) {
-        const traitPageObj = bookData[14 + i] || {};
-        const t1Val = parseNumericScore(traitPageObj.top_avg_t1?.text);
-        const t2Val = parseNumericScore(traitPageObj.top_avg_t2?.text);
-
-        if (t1Val !== null) {
-          sumPage[`sum_t1_${i}`].text = formatCleanNumber(t1Val, 2);
-        }
-        if (t2Val !== null) {
-          sumPage[`sum_t2_${i}`].text = formatCleanNumber(t2Val, 2);
-        }
-      }
-    }
-
-    const allT1 = [];
-    const allT2 = [];
-    const allAv = [];
-
-    for (let i = 0; i < 8; i++) {
-      const t1 = parseNumericScore(sumPage[`sum_t1_${i}`]?.text);
-      const t2 = parseNumericScore(sumPage[`sum_t2_${i}`]?.text);
-
-      if (t1 !== null) allT1.push(t1);
-      if (t2 !== null) allT2.push(t2);
-
-      if (t1 !== null || t2 !== null) {
-        const rowAvg = (t1 !== null && t2 !== null) ? (t1 + t2) / 2 : (t1 !== null ? t1 : t2);
-        sumPage[`sum_av_${i}`].text = formatCleanNumber(rowAvg, 2);
-        sumPage[`sum_ql_${i}`].text = getQualityLevelText(rowAvg);
-        allAv.push(rowAvg);
-      } else {
-        sumPage[`sum_av_${i}`].text = '';
-        sumPage[`sum_ql_${i}`].text = '';
-      }
-    }
-
-    sumPage.sum_t1_8.text = allT1.length > 0 ? formatCleanNumber(allT1.reduce((a, b) => a + b, 0) / allT1.length, 2) : '';
-    sumPage.sum_t2_8.text = allT2.length > 0 ? formatCleanNumber(allT2.reduce((a, b) => a + b, 0) / allT2.length, 2) : '';
-
-    if (allAv.length > 0) {
-      const grandAvg = allAv.reduce((a, b) => a + b, 0) / allAv.length;
-      sumPage.sum_av_8.text = formatCleanNumber(grandAvg, 2);
-      sumPage.sum_ql_8.text = getQualityLevelText(grandAvg);
-
-      ['chk_5', 'chk_4', 'chk_3', 'chk_2', 'chk_1'].forEach(k => { sumPage[k].text = ''; });
-      if (grandAvg >= 4.50) sumPage.chk_5.text = '✓';
-      else if (grandAvg >= 3.50) sumPage.chk_4.text = '✓';
-      else if (grandAvg >= 2.50) sumPage.chk_3.text = '✓';
-      else if (grandAvg >= 1.50) sumPage.chk_2.text = '✓';
-      else if (grandAvg >= 1.00) sumPage.chk_1.text = '✓';
-    } else {
-      sumPage.sum_av_8.text = '';
-      sumPage.sum_ql_8.text = '';
-    }
-  }
-
-  function syncCurrentPageInputsDOM(activeFieldId) {
-    const pageObj = bookData[currentPdfPage] || {};
-    Object.keys(pageObj).forEach(fid => {
-      if (fid === activeFieldId) return;
-      const domInp = document.getElementById(`field_inp_${fid}`);
-      if (domInp) {
-        const targetVal = toThaiNumerals(pageObj[fid].text || '');
-        if (domInp.value !== targetVal) {
-          domInp.value = targetVal;
-        }
-      }
-    });
-  }
-
-  document.getElementById('recalcAllBtn').addEventListener('click', () => {
-    const wasChecked = document.getElementById('autoCalcToggle').checked;
-    document.getElementById('autoCalcToggle').checked = true;
-    for (let p = 14; p <= 21; p++) {
-      recalculateTraitPage(p, '');
-    }
-    recalculateSummaryPage(false);
-    document.getElementById('autoCalcToggle').checked = wasChecked;
-    saveToLocal();
-    renderFormForCurrentPage();
-    drawCurrentPageOverlay();
-    alert('คำนวณคะแนนรวม ค่าเฉลี่ย และระดับคุณภาพครบทั้ง ๘ ข้อ พร้อมอัปเดตหน้าสรุปผล (หน้า ๔) เรียบร้อยแล้วครับ!');
-  });
-
-  function getFieldFontSize(pdfPage, key, item) {
-    if (key.startsWith('custom_')) {
-      return Number((item && item.size) || document.getElementById('customFontSizeInput').value || 14);
-    }
-    if (isTableScoreField(pdfPage, key)) {
-      return Number((item && item.size) || document.getElementById('scoreFontSizeInput').value || 13.5);
-    }
-    return Number((item && item.size) || document.getElementById('fontSizeInput').value || 14);
-  }
-
-  const pageSelect = document.getElementById('pageSelect');
-  PAGE_META.forEach(m => {
-    const opt = document.createElement('option');
-    opt.value = m.pdfPage;
-    opt.textContent = m.title;
-    pageSelect.appendChild(opt);
-  });
-
-  function bindThaiNumeralInput(inputEl, onUpdateCallback) {
-    inputEl.addEventListener('input', (e) => {
-      if (document.getElementById('autoThaiNumeralToggle').checked) {
-        const start = e.target.selectionStart;
-        const end = e.target.selectionEnd;
-        const converted = toThaiNumerals(e.target.value);
-        if (e.target.value !== converted) {
-          e.target.value = converted;
-          e.target.setSelectionRange(start, end);
-        }
-      }
-      onUpdateCallback(e.target.value);
-    });
-  }
-
-  bindThaiNumeralInput(document.getElementById('globalYear'), () => {});
-
-  document.getElementById('autoThaiNumeralToggle').addEventListener('change', (e) => {
-    if (e.target.checked) {
-      for (let p = 1; p <= TOTAL_PAGES; p++) {
-        const pageObj = bookData[p] || {};
-        Object.keys(pageObj).forEach(k => {
-          if (pageObj[k] && pageObj[k].text) {
-            pageObj[k].text = toThaiNumerals(pageObj[k].text);
-          }
-        });
-      }
-      saveToLocal();
-      renderFormForCurrentPage();
-    }
-    drawCurrentPageOverlay();
-  });
-
-  // สร้างฟอร์มกรอกข้อมูลด้านซ้ายตามหน้าที่เปิดอยู่
-  function renderFormForCurrentPage() {
-    const container = document.getElementById('dynamicFormContainer');
-    container.innerHTML = '';
-    const meta = PAGE_META[currentPdfPage - 1];
-    const pageObj = bookData[currentPdfPage] || {};
-    const schema = getFieldsForPage(currentPdfPage);
-    const schemaIds = new Set(schema.map(s => s.id));
-
-    document.getElementById('coverPhotoSection').style.display = (currentPdfPage === 1) ? 'block' : 'none';
-
-    // 1. หมวดข้อความอิสระ / จุดพล็อตกราฟ บนหน้านี้
-    const customKeys = Object.keys(pageObj).filter(k => !schemaIds.has(k));
-    if (customKeys.length > 0) {
-      const h3Custom = document.createElement('h3');
-      h3Custom.className = 'custom-group';
-      h3Custom.textContent = `📌 ข้อความอิสระ / จุดพล็อตกราฟ ในหน้านี้ (${customKeys.length} รายการ)`;
-      container.appendChild(h3Custom);
-
-      customKeys.forEach((key, idx) => {
-        const item = pageObj[key];
-        const row = document.createElement('div');
-        row.className = 'custom-field-row';
-
-        const inp = document.createElement('input');
-        inp.type = 'text';
-        inp.value = toThaiNumerals(item.text || '');
-        inp.placeholder = `ข้อความอิสระ #${idx + 1}`;
-        bindThaiNumeralInput(inp, (val) => {
-          bookData[currentPdfPage][key].text = val;
-          saveToLocal();
-          drawCurrentPageOverlay();
-        });
-
-        const sizeInp = document.createElement('input');
-        sizeInp.type = 'number';
-        sizeInp.min = '6';
-        sizeInp.max = '48';
-        sizeInp.step = '0.5';
-        sizeInp.title = 'ขนาดฟอนต์ของชิ้นนี้';
-        sizeInp.value = item.size || document.getElementById('customFontSizeInput').value || 14;
-        sizeInp.addEventListener('input', (e) => {
-          bookData[currentPdfPage][key].size = Number(e.target.value || 14);
-          saveToLocal();
-          drawCurrentPageOverlay();
-        });
-
-        const delBtn = document.createElement('button');
-        delBtn.type = 'button';
-        delBtn.className = 'btn-del';
-        delBtn.textContent = '🗑️ ลบ';
-        delBtn.addEventListener('click', () => {
-          delete bookData[currentPdfPage][key];
-          saveToLocal();
-          renderFormForCurrentPage();
-          drawCurrentPageOverlay();
-        });
-
-        row.appendChild(inp);
-        row.appendChild(sizeInp);
-        row.appendChild(delBtn);
-        container.appendChild(row);
-      });
-    }
-
-    if (meta && meta.type === 'readonly') {
-      const infoBox = document.createElement('div');
-      infoBox.className = 'readonly-notice';
-      infoBox.innerHTML = `
-        <b>📄 ${meta.title}</b><br>
-        หน้านี้เป็นเนื้อหาคำนำ สารบัญ และคำชี้แจงตามหลักสูตร (ไม่มีช่องกรอกข้อมูลหลัก) ระบบจะคงหน้ากระดาษต้นฉบับนี้ไว้ 100% เมื่อกด Export ไฟล์ PDF ทั้งเล่มครับ<br>
-        <small style="color:#15803d;">*(หากต้องการพิมพ์ข้อความเพิ่มเติมลงบนหน้านี้ สามารถกดปุ่ม <b>"+ เพิ่มข้อความอิสระ"</b> ด้านบนได้ครับ)*</small>
-      `;
-      container.appendChild(infoBox);
-      return;
-    }
-
-    if (meta && meta.type === 'growth_chart') {
-      const chartBox = document.createElement('div');
-      chartBox.className = 'readonly-notice';
-      chartBox.innerHTML = `
-        <b>📈 ${meta.title}</b><br>
-        สำหรับการพล็อตจุดน้ำหนักและส่วนสูงลงบนกราฟ ให้กดปุ่มสีม่วง <b>"+ วางจุดพล็อตกราฟ (•)"</b> ด้านบน แล้วใช้เมาส์คลิกลากจุด <b>•</b> บนหน้ากระดาษด้านขวาไปวางตามพิกัดอายุและน้ำหนัก/ส่วนสูงได้เลยครับ
-      `;
-      container.appendChild(chartBox);
-      return;
-    }
-
-    // 2. ช่องกรอกมาตรฐานตามโครงสร้างหน้าเอกสาร
-    const grouped = {};
-    schema.forEach(s => {
-      const item = pageObj[s.id];
-      if (!item) return;
-      const grpName = item.group || 'ข้อมูลทั่วไป';
-      if (!grouped[grpName]) grouped[grpName] = [];
-      grouped[grpName].push({ id: s.id, ...item });
-    });
-
-    Object.keys(grouped).forEach(grpName => {
-      const h3 = document.createElement('h3');
-      if (grpName.includes('ตาราง')) h3.className = 'table-group';
-
-      // หากเป็นหัวข้อตารางสรุปในหน้า ๔ (หน้าที่ 7) ให้วางปุ่ม แสดง/ซ่อน เฉลี่ย ๒ ภาคเรียน ไว้ที่หัวตารางด้วย
-      if (currentPdfPage === 7 && grpName.includes('ตารางสรุปผลการประเมิน')) {
-        const titleSpan = document.createElement('span');
-        titleSpan.textContent = grpName;
-        h3.appendChild(titleSpan);
-
-        const isShow = bookData._showTwoTermAvg !== false;
-        const btnWrap = document.createElement('div');
-        btnWrap.className = 'toggle-btn-group';
-
-        const bShow = document.createElement('button');
-        bShow.type = 'button';
-        bShow.id = 'btnShowTwoTermInPage';
-        bShow.className = 'toggle-choice-btn' + (isShow ? ' active-show' : '');
-        bShow.textContent = '👁️ แสดงเฉลี่ย ๒ เทอม';
-        bShow.addEventListener('click', () => setTwoTermAvgVisibility(true));
-
-        const bHide = document.createElement('button');
-        bHide.type = 'button';
-        bHide.id = 'btnHideTwoTermInPage';
-        bHide.className = 'toggle-choice-btn' + (!isShow ? ' active-hide' : '');
-        bHide.textContent = '🙈 ซ่อนไว้ก่อน';
-        bHide.addEventListener('click', () => setTwoTermAvgVisibility(false));
-
-        btnWrap.appendChild(bShow);
-        btnWrap.appendChild(bHide);
-        h3.appendChild(btnWrap);
-      } else {
-        h3.textContent = grpName;
+        if (traitsData[7].sum_t1_8?.text && reportData[27].tr_avg_t1) reportData[27].tr_avg_t1.text = traitsData[7].sum_t1_8.text;
+        if (traitsData[7].sum_t2_8?.text && reportData[27].tr_avg_t2) reportData[27].tr_avg_t2.text = traitsData[7].sum_t2_8.text;
+        if (traitsData[7].sum_av_8?.text && reportData[27].tr_avg_sum) reportData[27].tr_avg_sum.text = traitsData[7].sum_av_8.text;
+        if (traitsData[7].sum_ql_8?.text && reportData[27].tr_ql_sum) reportData[27].tr_ql_sum.text = traitsData[7].sum_ql_8.text;
       }
 
-      container.appendChild(h3);
+      localStorage.setItem(reportKey, JSON.stringify(reportData));
+      localStorage.setItem(traitsKey, JSON.stringify(traitsData));
 
-      const grid = document.createElement('div');
-      grid.className = (grouped[grpName].length >= 6 && meta.type === 'trait_detail') ? 'grid-4' : 'grid-2';
+      // รีเฟรชหน้า iframe ปัจจุบันเพื่อให้แสดงข้อมูลที่ซิงค์ทันที
+      const frameEl = document.getElementById('appFrame');
+      if (frameEl.style.display === 'block' && frameEl.contentWindow) {
+        frameEl.contentWindow.location.reload();
+      }
 
-      grouped[grpName].forEach(field => {
-        const wrap = document.createElement('div');
-        const isHiddenTwoTerm = isTwoTermAverageField(currentPdfPage, field.id) && (bookData._showTwoTermAvg === false);
-        wrap.className = 'field' + (isHiddenTwoTerm ? ' hidden-on-pdf' : '');
-
-        const lbl = document.createElement('label');
-        lbl.textContent = (field.label || field.id) + (isHiddenTwoTerm ? ' [ซ่อนอยู่บน PDF]' : '');
-
-        const inp = document.createElement('input');
-        inp.type = 'text';
-        inp.id = `field_inp_${field.id}`;
-
-        if (isAutoCalculatedField(currentPdfPage, field.id)) {
-          inp.className = 'auto-calc-field';
-        } else if (isTableScoreField(currentPdfPage, field.id)) {
-          inp.className = 'score-input';
-        }
-
-        inp.value = toThaiNumerals(field.text || '');
-        inp.placeholder = 'พิมพ์ข้อมูล...';
-
-        bindThaiNumeralInput(inp, (val) => {
-          bookData[currentPdfPage][field.id].text = val;
-
-          if (currentPdfPage >= 14 && currentPdfPage <= 21) {
-            const isScoreInput = field.id.startsWith('bot_s') && !field.id.endsWith('_av1') && !field.id.endsWith('_av2');
-            const isTopSubInput = field.id.startsWith('top_sub');
-            if (isScoreInput || isTopSubInput) {
-              recalculateTraitPage(currentPdfPage, field.id);
-              syncCurrentPageInputsDOM(field.id);
-            }
-          } else if (currentPdfPage === 7 && (field.id.startsWith('sum_t1_') || field.id.startsWith('sum_t2_'))) {
-            recalculateSummaryPage(true);
-            syncCurrentPageInputsDOM(field.id);
-          }
-
-          saveToLocal();
-          drawCurrentPageOverlay();
-        });
-
-        wrap.appendChild(lbl);
-        wrap.appendChild(inp);
-        grid.appendChild(wrap);
-      });
-
-      container.appendChild(grid);
-    });
-  }
-
-  function saveToLocal() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(bookData));
-  }
-
-  // อัปโหลดไฟล์ PDF ต้นฉบับ
-  document.getElementById('pdfUpload').addEventListener('change', async (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    originalPdfBytes = await file.arrayBuffer();
-    pdfDocPreview = await pdfjsLib.getDocument({ data: originalPdfBytes.slice(0) }).promise;
-    loadAndRenderPdfPage(currentPdfPage);
-  });
-
-  // อัปโหลดรูปถ่ายนักเรียนบนหน้าปก
-  document.getElementById('studentPhotoUpload').addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const img = new Image();
-      img.onload = () => {
-        const tempCanvas = document.createElement('canvas');
-        const maxDim = 600;
-        let w = img.width, h = img.height;
-        if (w > maxDim || h > maxDim) {
-          if (w > h) { h = Math.round(h * (maxDim / w)); w = maxDim; }
-          else { w = Math.round(w * (maxDim / h)); h = maxDim; }
-        }
-        tempCanvas.width = w;
-        tempCanvas.height = h;
-        tempCanvas.getContext('2d').drawImage(img, 0, 0, w, h);
-        bookData._photoMeta.dataUrl = tempCanvas.toDataURL('image/jpeg', 0.88);
-        studentPhotoImg = img;
-        saveToLocal();
-        drawCurrentPageOverlay();
-      };
-      img.src = ev.target.result;
-    };
-    reader.readAsDataURL(file);
-  });
-
-  document.getElementById('photoWidthInput').addEventListener('input', (e) => {
-    bookData._photoMeta.w = Number(e.target.value || 13.2) / 100;
-    saveToLocal();
-    drawCurrentPageOverlay();
-  });
-
-  document.getElementById('photoHeightInput').addEventListener('input', (e) => {
-    bookData._photoMeta.h = Number(e.target.value || 12.5) / 100;
-    saveToLocal();
-    drawCurrentPageOverlay();
-  });
-
-  document.getElementById('clearPhotoBtn').addEventListener('click', () => {
-    studentPhotoImg = null;
-    bookData._photoMeta.dataUrl = null;
-    document.getElementById('studentPhotoUpload').value = '';
-    saveToLocal();
-    drawCurrentPageOverlay();
-  });
-
-  async function loadAndRenderPdfPage(pageNum) {
-    currentPdfPage = pageNum;
-    pageSelect.value = pageNum;
-    renderFormForCurrentPage();
-
-    const meta = PAGE_META[pageNum - 1];
-    document.getElementById('pageHeaderInfo').textContent =
-      `กำลังแสดง: ${meta.title} (คลิกลากเพื่อย้ายตำแหน่ง หรือดับเบิลคลิกที่ข้อความเพื่อแก้ไข/ลบ)`;
-
-    if (!pdfDocPreview) return;
-
-    const targetPage = Math.min(pageNum, pdfDocPreview.numPages);
-    const page = await pdfDocPreview.getPage(targetPage);
-    const viewport = page.getViewport({ scale: RENDER_SCALE });
-    canvas.width = viewport.width;
-    canvas.height = viewport.height;
-
-    const offscreen = document.createElement('canvas');
-    offscreen.width = viewport.width;
-    offscreen.height = viewport.height;
-    await page.render({ canvasContext: offscreen.getContext('2d'), viewport }).promise;
-
-    currentPageCanvas = offscreen;
-    drawCurrentPageOverlay();
-  }
-
-  function drawCurrentPageOverlay() {
-    if (!currentPageCanvas) return;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(currentPageCanvas, 0, 0);
-    drawPageElements(ctx, currentPdfPage, canvas.width, canvas.height, RENDER_SCALE);
-  }
-
-  function drawPageElements(targetCtx, pageNum, width, height, scaleFactor) {
-    const color = document.getElementById('fontColorInput').value;
-    targetCtx.fillStyle = color;
-    targetCtx.textBaseline = 'alphabetic';
-
-    if (pageNum === 1 && studentPhotoImg && bookData._photoMeta) {
-      const pm = bookData._photoMeta;
-      targetCtx.drawImage(studentPhotoImg, pm.x * width, pm.y * height, pm.w * width, pm.h * height);
+      alert('✅ ซิงค์ข้อมูลหน้าปก รูปนักเรียน และคะแนนคุณลักษณะอันพึงประสงค์ระหว่างทั้ง 2 เล่มเรียบร้อยแล้วครับ!');
     }
-
-    const pageFields = bookData[pageNum] || {};
-    Object.keys(pageFields).forEach(key => {
-      // หากเลือก "ซ่อนคะแนน" ช่องเฉลี่ย ๒ ภาคเรียน ในหน้า ๔ (หน้าที่ 7) ให้ข้ามไม่ต้องวาดลงบนกระดาษ
-      if (isTwoTermAverageField(pageNum, key) && bookData._showTwoTermAvg === false) {
-        return;
-      }
-
-      const item = pageFields[key];
-      if (item && item.text && String(item.text).trim() !== '') {
-        const itemSize = getFieldFontSize(pageNum, key, item);
-        targetCtx.font = `${itemSize * scaleFactor}px ${activeFontFamily}`;
-        const x = item.x * width;
-        const y = item.y * height;
-        targetCtx.fillText(toThaiNumerals(item.text), x, y);
-      }
-    });
-  }
-
-  // เปลี่ยนหน้า
-  pageSelect.addEventListener('change', (e) => loadAndRenderPdfPage(Number(e.target.value)));
-  document.getElementById('prevPageBtn').addEventListener('click', () => {
-    if (currentPdfPage > 1) loadAndRenderPdfPage(currentPdfPage - 1);
-  });
-  document.getElementById('nextPageBtn').addEventListener('click', () => {
-    if (currentPdfPage < TOTAL_PAGES) loadAndRenderPdfPage(currentPdfPage + 1);
-  });
-
-  // ปุ่มซิงค์ปีการศึกษาและข้อมูลนักเรียนจากหน้าปก (หน้าที่ 1) ไปยังหน้าสรุปผล (หน้าที่ 7 / หน้า ๔)
-  document.getElementById('syncCoverToSummaryBtn').addEventListener('click', () => {
-    const yrInput = toThaiNumerals(document.getElementById('globalYear').value.trim());
-    if (yrInput) {
-      document.getElementById('globalYear').value = yrInput;
-      if (bookData[1] && bookData[1].academic_year) bookData[1].academic_year.text = yrInput;
-      if (bookData[7] && bookData[7].academic_year) bookData[7].academic_year.text = yrInput;
-    }
-
-    ['academic_year', 'full_name', 'student_id', 'disability_type', 'disability_desc'].forEach(fieldKey => {
-      const coverVal = bookData[1] && bookData[1][fieldKey] ? bookData[1][fieldKey].text : '';
-      if (coverVal && bookData[7] && bookData[7][fieldKey]) {
-        bookData[7][fieldKey].text = coverVal;
-      }
-    });
-
-    saveToLocal();
-    renderFormForCurrentPage();
-    drawCurrentPageOverlay();
-    alert('ซิงค์ปีการศึกษาและข้อมูลนักเรียนจากหน้าปกไปยังหน้าสรุปผล (หน้า ๔) เรียบร้อยแล้วครับ');
-  });
-
-  // ปุ่มตั้งชื่อเดือนประเมินทั้ง 6 ครั้ง ให้ครบทั้ง 8 ข้อ (หน้าที่ 14 - 21)
-  document.getElementById('syncDefaultMonthsBtn').addEventListener('click', () => {
-    const defaultMonths = ['มิ.ย.', 'ส.ค.', 'ต.ค.', 'ธ.ค.', 'ก.พ.', 'เม.ย.'];
-    const customPrompt = prompt(
-      'ระบุชื่อเดือนประเมินทั้ง 6 ครั้ง (คั่นด้วยเครื่องหมายจุลภาค ,):',
-      defaultMonths.join(', ')
-    );
-    if (!customPrompt) return;
-    const monthsArr = customPrompt.split(',').map(s => toThaiNumerals(s.trim()));
-
-    for (let p = 14; p <= 21; p++) {
-      for (let m = 1; m <= 6; m++) {
-        if (bookData[p] && bookData[p][`m_name_${m}`] && monthsArr[m - 1] !== undefined) {
-          bookData[p][`m_name_${m}`].text = monthsArr[m - 1];
-        }
-      }
-    }
-    saveToLocal();
-    renderFormForCurrentPage();
-    drawCurrentPageOverlay();
-    alert('ใส่ชื่อเดือนประเมินทั้ง 6 ครั้ง ในแบบประเมินครบทั้ง 8 ข้อ (หน้า ๑๑-๑๘) เรียบร้อยแล้วครับ');
-  });
-
-  // ปุ่ม "+ เพิ่มข้อความอิสระ"
-  document.getElementById('addCustomTextBtn').addEventListener('click', () => {
-    const inputText = prompt('พิมพ์ข้อความที่ต้องการวางบนหน้ากระดาษนี้ (พิมพ์เลขอารบิก 0-9 ได้เลย):', '');
-    if (inputText === null || inputText.trim() === '') return;
-
-    const newId = 'custom_' + Date.now();
-    const customCount = Object.keys(bookData[currentPdfPage] || {}).filter(k => k.startsWith('custom_')).length;
-    const startY = Math.min(0.28 + (customCount * 0.035), 0.85);
-    const defaultCustomSize = Number(document.getElementById('customFontSizeInput').value || 14);
-
-    bookData[currentPdfPage][newId] = {
-      label: 'ข้อความอิสระ',
-      text: toThaiNumerals(inputText.trim()),
-      size: defaultCustomSize,
-      x: 0.30,
-      y: Number(startY.toFixed(3)),
-      group: 'ข้อความเพิ่มเติมบนหน้านี้'
-    };
-
-    saveToLocal();
-    renderFormForCurrentPage();
-    drawCurrentPageOverlay();
-  });
-
-  // ปุ่ม "+ วางจุดพล็อตกราฟ (•)"
-  document.getElementById('addPlotPointBtn').addEventListener('click', () => {
-    const newId = 'custom_plot_' + Date.now();
-    const customCount = Object.keys(bookData[currentPdfPage] || {}).filter(k => k.startsWith('custom_')).length;
-    const startX = Math.min(0.25 + (customCount * 0.04), 0.85);
-
-    bookData[currentPdfPage][newId] = {
-      label: 'จุดพล็อตกราฟ',
-      text: '•',
-      size: 22,
-      x: Number(startX.toFixed(3)),
-      y: 0.50,
-      group: 'จุดพล็อตกราฟบนหน้านี้'
-    };
-
-    saveToLocal();
-    renderFormForCurrentPage();
-    drawCurrentPageOverlay();
-  });
-
-  document.getElementById('scoreFontSizeInput').addEventListener('input', (e) => {
-    const newScoreSize = Number(e.target.value || 13.5);
-    const pageObj = bookData[currentPdfPage] || {};
-    Object.keys(pageObj).forEach(k => {
-      if (isTableScoreField(currentPdfPage, k)) {
-        pageObj[k].size = newScoreSize;
-      }
-    });
-    saveToLocal();
-    drawCurrentPageOverlay();
-  });
-
-  document.getElementById('customFontSizeInput').addEventListener('input', (e) => {
-    const newCustomSize = Number(e.target.value || 14);
-    const pageObj = bookData[currentPdfPage] || {};
-    Object.keys(pageObj).forEach(k => {
-      if (k.startsWith('custom_')) {
-        pageObj[k].size = newCustomSize;
-      }
-    });
-    saveToLocal();
-    renderFormForCurrentPage();
-    drawCurrentPageOverlay();
-  });
-
-  document.querySelectorAll('#fontSizeInput, #fontColorInput').forEach(el => {
-    el.addEventListener('input', drawCurrentPageOverlay);
-  });
-
-  // ค้นหาว่าเมาส์คลิกโดนรูปนักเรียนหรือข้อความตัวไหนบนกระดาษ
-  function findHitTarget(mouseX, mouseY) {
-    if (currentPdfPage === 1 && studentPhotoImg && bookData._photoMeta) {
-      const pm = bookData._photoMeta;
-      const px = pm.x * canvas.width;
-      const py = pm.y * canvas.height;
-      const pw = pm.w * canvas.width;
-      const ph = pm.h * canvas.height;
-      if (mouseX >= px && mouseX <= px + pw && mouseY >= py && mouseY <= py + ph) {
-        return { type: 'photo', key: '_photoMeta', x: px, y: py };
-      }
-    }
-
-    const pageFields = bookData[currentPdfPage] || {};
-    let hit = null;
-
-    Object.keys(pageFields).forEach(key => {
-      if (isTwoTermAverageField(currentPdfPage, key) && bookData._showTwoTermAvg === false) {
-        return;
-      }
-      const item = pageFields[key];
-      if (!item || !item.text) return;
-      const fontSize = getFieldFontSize(currentPdfPage, key, item) * RENDER_SCALE;
-      ctx.font = `${fontSize}px ${activeFontFamily}`;
-      const tx = item.x * canvas.width;
-      const ty = item.y * canvas.height;
-      const renderedText = toThaiNumerals(item.text);
-      const tw = Math.max(ctx.measureText(renderedText).width, 14);
-      if (mouseX >= tx - 8 && mouseX <= tx + tw + 8 && mouseY >= ty - fontSize && mouseY <= ty + 10) {
-        hit = { type: 'field', key: key, x: tx, y: ty };
-      }
-    });
-    return hit;
-  }
-
-  let draggingTarget = null;
-  let dragOffset = { x: 0, y: 0 };
-
-  canvas.addEventListener('mousedown', (e) => {
-    if (!currentPageCanvas) return;
-    const rect = canvas.getBoundingClientRect();
-    const mouseX = (e.clientX - rect.left) * (canvas.width / rect.width);
-    const mouseY = (e.clientY - rect.top) * (canvas.height / rect.height);
-
-    const hit = findHitTarget(mouseX, mouseY);
-    if (hit) {
-      draggingTarget = hit;
-      dragOffset = { x: mouseX - hit.x, y: mouseY - hit.y };
-    }
-  });
-
-  canvas.addEventListener('mousemove', (e) => {
-    if (!draggingTarget) return;
-    const rect = canvas.getBoundingClientRect();
-    const mouseX = (e.clientX - rect.left) * (canvas.width / rect.width);
-    const mouseY = (e.clientY - rect.top) * (canvas.height / rect.height);
-
-    const newX = Number(((mouseX - dragOffset.x) / canvas.width).toFixed(4));
-    const newY = Number(((mouseY - dragOffset.y) / canvas.height).toFixed(4));
-
-    if (draggingTarget.type === 'photo') {
-      bookData._photoMeta.x = newX;
-      bookData._photoMeta.y = newY;
-    } else {
-      bookData[currentPdfPage][draggingTarget.key].x = newX;
-      bookData[currentPdfPage][draggingTarget.key].y = newY;
-    }
-    drawCurrentPageOverlay();
-  });
-
-  window.addEventListener('mouseup', () => {
-    if (draggingTarget) {
-      saveToLocal();
-      draggingTarget = null;
-    }
-  });
-
-  // ดับเบิลคลิกที่ข้อความบนกระดาษเพื่อแก้ไขคำ หรือลบออกได้ทันที
-  canvas.addEventListener('dblclick', (e) => {
-    if (!currentPageCanvas) return;
-    const rect = canvas.getBoundingClientRect();
-    const mouseX = (e.clientX - rect.left) * (canvas.width / rect.width);
-    const mouseY = (e.clientY - rect.top) * (canvas.height / rect.height);
-
-    const hit = findHitTarget(mouseX, mouseY);
-    if (!hit || hit.type === 'photo') return;
-
-    const currentItem = bookData[currentPdfPage][hit.key];
-    const newText = prompt('แก้ไขข้อความ (หากต้องการลบข้อความนี้ ให้ลบจนว่างแล้วกด OK):', currentItem.text);
-    if (newText === null) return;
-
-    if (newText.trim() === '' && hit.key.startsWith('custom_')) {
-      delete bookData[currentPdfPage][hit.key];
-    } else {
-      bookData[currentPdfPage][hit.key].text = toThaiNumerals(newText);
-      if (currentPdfPage >= 14 && currentPdfPage <= 21) {
-        recalculateTraitPage(currentPdfPage, hit.key);
-      } else if (currentPdfPage === 7) {
-        recalculateSummaryPage(true);
-      }
-    }
-    saveToLocal();
-    renderFormForCurrentPage();
-    drawCurrentPageOverlay();
-  });
-
-  // บันทึกและโหลดไฟล์ JSON
-  document.getElementById('saveJsonBtn').addEventListener('click', () => {
-    const studentName = (bookData[1] && bookData[1].full_name && bookData[1].full_name.text)
-      ? bookData[1].full_name.text.trim()
-      : 'นักเรียน';
-    const blob = new Blob([JSON.stringify(bookData, null, 2)], { type: 'application/json' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `ข้อมูลแบบประเมินคุณลักษณะ_${studentName}_ครบเล่ม.json`;
-    a.click();
-  });
-
-  document.getElementById('loadJsonBtn').addEventListener('click', () => {
-    document.getElementById('jsonFileInput').click();
-  });
-
-  document.getElementById('jsonFileInput').addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      try {
-        bookData = JSON.parse(ev.target.result);
-        initBookData();
-        renderFormForCurrentPage();
-        drawCurrentPageOverlay();
-        alert('โหลดข้อมูลแบบประเมินคุณลักษณะอันพึงประสงค์สำเร็จ!');
-      } catch (err) {
-        alert('ไฟล์ JSON ไม่ถูกต้อง');
-      }
-    };
-    reader.readAsText(file);
-  });
-
-  // Export ไฟล์ PDF ทั้ง 21 หน้า
-  document.getElementById('exportPdfBtn').addEventListener('click', async () => {
-    if (!originalPdfBytes) {
-      alert('กรุณาเลือกไฟล์ "แบบประเมินคุณลักษณะอันพึงประสงค์.pdf" ในขั้นตอนที่ 1 ก่อนครับ');
-      return;
-    }
-
-    const btn = document.getElementById('exportPdfBtn');
-    const oldText = btn.textContent;
-    btn.textContent = '⏳ กำลังประมวลผล PDF ทั้ง 21 หน้า กรุณารอสักครู่...';
-    btn.disabled = true;
-
-    try {
-      await document.fonts.ready;
-      const { PDFDocument } = PDFLib;
-      const pdfDoc = await PDFDocument.load(originalPdfBytes);
-      const pages = pdfDoc.getPages();
-
-      const EXPORT_SCALE = 3.2;
-      const overlayCanvas = document.createElement('canvas');
-      const overlayCtx = overlayCanvas.getContext('2d');
-
-      for (let i = 0; i < pages.length; i++) {
-        const dataPageNum = i + 1;
-        const pageFields = bookData[dataPageNum] || {};
-        const hasText = Object.entries(pageFields).some(([k, f]) => {
-          if (isTwoTermAverageField(dataPageNum, k) && bookData._showTwoTermAvg === false) return false;
-          return f && f.text && String(f.text).trim() !== '';
-        });
-        const hasPhoto = (dataPageNum === 1 && studentPhotoImg);
-
-        if (hasText || hasPhoto) {
-          const { width, height } = pages[i].getSize();
-          overlayCanvas.width = width * EXPORT_SCALE;
-          overlayCanvas.height = height * EXPORT_SCALE;
-          overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
-
-          drawPageElements(overlayCtx, dataPageNum, overlayCanvas.width, overlayCanvas.height, EXPORT_SCALE);
-
-          const pngDataUrl = overlayCanvas.toDataURL('image/png');
-          const pngImage = await pdfDoc.embedPng(pngDataUrl);
-          pages[i].drawImage(pngImage, { x: 0, y: 0, width: width, height: height });
-        }
-      }
-
-      const finalPdfBytes = await pdfDoc.save();
-      const blob = new Blob([finalPdfBytes], { type: 'application/pdf' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-
-      const studentName = (bookData[1] && bookData[1].full_name && bookData[1].full_name.text)
-        ? bookData[1].full_name.text.trim()
-        : 'พร้อมพิมพ์';
-      a.download = `แบบประเมินคุณลักษณะอันพึงประสงค์_${studentName}.pdf`;
-      a.click();
-    } catch (err) {
-      console.error(err);
-      alert('เกิดข้อผิดพลาดในการสร้าง PDF: ' + err.message);
-    } finally {
-      btn.textContent = oldText;
-      btn.disabled = false;
-    }
-  });
-
-  renderFormForCurrentPage();
-  // ฟังก์ชันดึงไฟล์ PDF ต้นฉบับในโฟลเดอร์เดียวกันมาแสดงอัตโนมัติเมื่อเปิดผ่านเว็บ GitHub Pages
-  async function autoLoadDefaultPdf() {
-    const pdfFileName = 'แบบประเมินคุณลักษณะอันพึงประสงค์.pdf';
-    const statusHeader = document.getElementById('pageHeaderInfo');
-    try {
-      statusHeader.textContent = '⏳ กำลังโหลดไฟล์แม่แบบ PDF อัตโนมัติ กรุณารอสักครู่...';
-      const response = await fetch(encodeURI(pdfFileName));
-      if (!response.ok) throw new Error('ไม่พบไฟล์ PDF ในโฟลเดอร์เดียวกัน');
-
-      originalPdfBytes = await response.arrayBuffer();
-      pdfDocPreview = await pdfjsLib.getDocument({ data: originalPdfBytes.slice(0) }).promise;
-
-      // เปลี่ยนกล่องอัปโหลดเป็นแจ้งเตือนสีเขียวว่าโหลดสำเร็จแล้ว (ซ่อนปุ่ม Choose File ไว้ในเมนูย่อย)
-      const uploadZone = document.querySelector('.upload-zone');
-      if (uploadZone) {
-        uploadZone.style.background = '#f0fdf4';
-        uploadZone.style.borderColor = '#86efac';
-        uploadZone.innerHTML = `
-          <div style="font-weight:600; color:#166534;">
-            ✅ โหลดไฟล์ต้นฉบับ "${pdfFileName}" อัตโนมัติแล้ว (พร้อมกรอกข้อมูลทันที)
-          </div>
-          <details style="margin-top:4px; font-size:12px; color:#475569; cursor:pointer;">
-            <summary>คลิกที่นี่หากต้องการเปลี่ยนไฟล์ PDF ต้นฉบับใหม่ด้วยตนเอง</summary>
-            <input type="file" id="pdfUploadFallback" accept="application/pdf" style="width:100%; margin-top:4px;">
-          </details>
-        `;
-        document.getElementById('pdfUploadFallback').addEventListener('change', async (e) => {
-          const file = e.target.files[0];
-          if (!file) return;
-          originalPdfBytes = await file.arrayBuffer();
-          pdfDocPreview = await pdfjsLib.getDocument({ data: originalPdfBytes.slice(0) }).promise;
-          loadAndRenderPdfPage(currentPdfPage);
-        });
-      }
-
-      await loadAndRenderPdfPage(currentPdfPage);
-    } catch (err) {
-      console.warn('ข้ามการโหลด PDF อัตโนมัติ:', err.message);
-      statusHeader.textContent = 'กรุณาเลือกไฟล์ "แบบประเมินคุณลักษณะอันพึงประสงค์.pdf" ด้านซ้ายเพื่อเริ่มต้น';
-    }
-  }
-
-  // เรียกใช้งานทันทีเมื่อเปิดหน้าเว็บ
-  autoLoadDefaultPdf();
-</script>
-
+  </script>
 </body>
 </html>
